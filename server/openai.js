@@ -1,11 +1,12 @@
-const OpenAI = require("openai");
-require("dotenv").config();
+//@ts-nocheck
+const OpenAI = require('openai')
+require('dotenv').config()
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+    apiKey: process.env.OPENAI_API_KEY,
+})
 
-const systemPrompt = `Give an approximate score for each criterion (Task Achievement,  Coherence and cohesion, Lexical resource, Grammatical range and accuracy) given the Score Descriptors in the IELTS exam for each one, be human-like; don't take descriptors too literally. A score can be from 0 to 9, in increments of 0.5. You will be given a specific topic and an Essay. Give the result in a JSON format as follows: 
+const systemPrompt = `Give an approximate score for each criterion (Task Achievement,  Coherence and cohesion, Lexical resource, Grammatical range and accuracy) given the Score Descriptors in the IELTS exam for each one, be human-like; don't take descriptors too literally. A score can be from 0 to 9, in increments of 0.5. You will be given a specific topic and an Essay. Give the result in a JSON format as follows:
   {
     TaskAchievement: {
       score: 5,
@@ -29,9 +30,8 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
     },
   };
 
-
-  Band 9: 
-  Task Achievement: 
+  Band 9:
+  Task Achievement:
   * Fully addresses all aspects of the task
   * Needs to present a fully developed position in response to question with relevant, fully extended and well supported ideas
 
@@ -46,7 +46,7 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * uses a wide range of structures with full flexibility and accuracy; rare minor errors occur only as 'slips'
 
   Band 8:
-  Task Achievement: 
+  Task Achievement:
   * Adequately addressed all parts of the task
   * Have to present a well constructed response to the question with relevant, extended and supported ideas.
 
@@ -65,11 +65,10 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * makes only very occasional errors or inappropriacies
   Band 7:
 
-  Task Achievement: 
+  Task Achievement:
   * Need to present a clear position throughout the response
   * All parts of the task have to be addressed
   * Main ideas are presented, extended, supported but over-generalise or supporting idea could lack the focus
-
 
   Coherence and cohesion:
   * logically organises information and ideas; there is clear progression throughout
@@ -86,7 +85,7 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * has good control of grammar and punctuation but may make a few errors
 
   Band 6:
-  Task Achievement: 
+  Task Achievement:
   * All parts of the task might be addressed but some parts might be covered more fully than others
   * Though the conclusions are unclear and repetitive, a relevant position is presented
   * Presented relevant main ideas but some ideas might be insufficiently developed/ unclear
@@ -107,13 +106,13 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * Made some errors in grammar and punctuation but they barely reduced communication
 
   Band 5:
-  Task Achievement: 
+  Task Achievement:
   * Only partially addressed the task; the format might be not suitable in places
   * Position is expressed but the development is not always clear and there might be no conclusions were drawn
   * Some of the presented ideas are limited and inadequately developed and there could be irrelevant detail
 
   Coherence and cohesion:
-  * Information with some organization could be presented but there may be overall lack of progression 
+  * Information with some organization could be presented but there may be overall lack of progression
   * Cohesive devices - inadequate, inaccurate or overuse
   * Might be repetitive because of lack of referencing and substitution
   * Might not write in paragraphs or inadequate paragraphing
@@ -128,7 +127,7 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * Frequent grammatical errors and faulty punctuation; errors could some difficulty for the reader
 
   Band 4:
-  Task Achievement: 
+  Task Achievement:
   * Responding to the task minimally or the answer is erratic; the format might be inappropriate
   * Position is presented but it is unclear
   * Some main ideas are presented but those are hard to identify and might be repetitive, irrelevant and not well supported
@@ -147,7 +146,7 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * Several structures are accurate but predominated errors and faulty punctuation
 
   Band 3:
-  Task Achievement: 
+  Task Achievement:
   * Does not sufficiently address all parts of the task.
   * Clear position is not expressed
   * Few ideas are presented but those are largely undeveloped and irrelevant
@@ -163,9 +162,8 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   Grammatical range and accuracy:
   * Sentence forms are attempted but has grammatical and punctuation errors which distort the meaning
 
-
   Band 2:
-  Task Achievement: 
+  Task Achievement:
   * Hardly responds to the task
   * Does not express a position
   * Attempted to present one or two ideas but there is no development
@@ -179,9 +177,8 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   Grammatical range and accuracy:
   * Absence of sentence forms except in memorized phrases
 
-
   Band 1:
-  Task Achievement: 
+  Task Achievement:
   * Answer is completely not related to the task
 
   Coherence and cohesion:
@@ -194,32 +191,31 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * No sentence forms are used
 
   Band 0:
-  Task Achievement: 
+  Task Achievement:
   * Did not attend
   * Did not attempt the task in any way
   * Wrote a entirely memorised response
-`;
+`
 
-const userExample = `Topic: Some people believe that entertainers are paid too much and their impact on society is negative, while others disagree and believe that they deserve the money that they make because of their positive effects on society. Discuss both opinions and give your own opinion. 
-Essay: The entertainment industry is one of the largest sectors in all around the world. Some think that the people who work in that industry earn too much money considering their bad influence on society, and I agree.  Others, however, believe that their positive impact on others is worth the money 
-that they are paid. On the one hand, there is no doubt that show business is an enormous and unfairly well paid sector. In addition to that, members of it do not add real value, compared to others like, for instance, education workers. Although in some countries teachers live with unreasonable wages, 
-their responsibility, is extremely valuable for next generations become better people. Whereas a singer can earn double their yearly salary from one concert. The other important point is, for a balanced and equal society, the difference between income levels must not be very high. Regardless than their
-contribution, no one should make billions of dollars that easily, because that imbalance does have a significant negative impact on societies. On the other hand, some people think that entertainers’ contribution to the modern life is worth the money they earn. It can be understood that for many people, 
-watching a movie or going to a concert is irreplaceable with other activities; therefore, they think that their positive impact is crucial for a significant proportion of people. In addition to that, celebrities do compromise their privacy and freedom with being known by many others. In exchange of that, they do deserve a comfortable life with significantly better paychecks. In conclusion, despite their minimal contribution with their work to the people and sacrifice from their private life; I believe that their impact is far from being positive and they are not paid fairly or balanced with others.`;
+// const userExample = `Topic: Some people believe that entertainers are paid too much and their impact on society is negative, while others disagree and believe that they deserve the money that they make because of their positive effects on society. Discuss both opinions and give your own opinion.
+// Essay: The entertainment industry is one of the largest sectors in all around the world. Some think that the people who work in that industry earn too much money considering their bad influence on society, and I agree.  Others, however, believe that their positive impact on others is worth the money
+// that they are paid. On the one hand, there is no doubt that show business is an enormous and unfairly well paid sector. In addition to that, members of it do not add real value, compared to others like, for instance, education workers. Although in some countries teachers live with unreasonable wages,
+// their responsibility, is extremely valuable for next generations become better people. Whereas a singer can earn double their yearly salary from one concert. The other important point is, for a balanced and equal society, the difference between income levels must not be very high. Regardless than their
+// contribution, no one should make billions of dollars that easily, because that imbalance does have a significant negative impact on societies. On the other hand, some people think that entertainers’ contribution to the modern life is worth the money they earn. It can be understood that for many people,
+// watching a movie or going to a concert is irreplaceable with other activities; therefore, they think that their positive impact is crucial for a significant proportion of people. In addition to that, celebrities do compromise their privacy and freedom with being known by many others. In exchange of that, they do deserve a comfortable life with significantly better paychecks. In conclusion, despite their minimal contribution with their work to the people and sacrifice from their private life; I believe that their impact is far from being positive and they are not paid fairly or balanced with others.`
 
-//here
 async function generateResponse() {
-  const chatCompletion = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    temperature: 1.4,
+    const chatCompletion = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        temperature: 1.4,
 
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userExample },
-    ],
-  });
+        messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userExample },
+        ],
+    })
 
-  return chatCompletion.choices[0].message;
+    return chatCompletion.choices[0].message
 }
 
-module.exports = { generateResponse };
+module.exports = { generateResponse }
