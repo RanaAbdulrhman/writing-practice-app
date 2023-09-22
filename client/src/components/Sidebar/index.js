@@ -4,6 +4,12 @@ import { ReactComponent as OverallScoreIcon } from 'assets/icons/score.svg'
 import { ReactComponent as GrammerMistakesIcon } from 'assets/icons/grammer.svg'
 import { ReactComponent as SpellingMistakesIcon } from 'assets/icons/spelling.svg'
 import { ReactComponent as HintsIcon } from 'assets/icons/hints.svg'
+import {
+    OverallScoresSection,
+    SpellingMistakesSection,
+    GrammerMistakesSection,
+    HintsAndSuggestionsSection,
+} from './components'
 
 export default function Sidebar() {
     const [activeTab, setActiveTab] = useState(0)
@@ -12,22 +18,22 @@ export default function Sidebar() {
         {
             title: 'Overall Scores',
             icon: <OverallScoreIcon />,
-            content: <div>o</div>,
+            content: <OverallScoresSection />,
         },
         {
             title: 'Spelling Mistakes',
             icon: <SpellingMistakesIcon style={{ marginBottom: '3px' }} />,
-            content: <div>s</div>,
+            content: <SpellingMistakesSection />,
         },
         {
             title: 'Grammer Mistakes',
             icon: <GrammerMistakesIcon />,
-            content: <div>g</div>,
+            content: <GrammerMistakesSection />,
         },
         {
             title: 'Hints & Suggestions',
             icon: <HintsIcon />,
-            content: <div>h</div>,
+            content: <HintsAndSuggestionsSection />,
         },
     ]
 
@@ -48,8 +54,8 @@ export default function Sidebar() {
         <div
             className={`relative w-full h-full bg-white ${style.sidebarContainer} transition-transform -translate-x-full sm:translate-x-0 pt-12`}
         >
-            <div>{tabs[activeTab].content}</div>
-            <ul className="space-y-2 absolute top-1 -right-6 mt-12">
+            <div className="w-9/12 ps-5">{tabs[activeTab].content}</div>
+            <ul className="space-y-2 absolute top-1 -right-6 mt-12 ">
                 {tabComponents}
             </ul>
         </div>

@@ -1,6 +1,14 @@
 .sidebarContainer {
     box-shadow: 14px 14px 40px 0px rgba(30, 38, 47, 0.13);
     line-height: 15px;
+    * {
+        user-select: none;
+        -webkit-user-select: none;
+        /*Safari*/
+        -moz-user-select: none;
+        /*Firefox*/
+    }
+
     .sideItem {
         display: flex;
         flex-direction: column;
@@ -8,14 +16,14 @@
         align-items: center;
         background-color: #2263fe;
         height: 90px;
-        width: 130px;
+        width: 120px;
         border-radius: 17.662px;
         padding-right: 18px;
         padding-left: 10px;
 
         color: white;
         text-align: center;
-        font-size: 14px;
+        font-size: 12px;
         font-style: normal;
         font-weight: 600;
 
@@ -28,4 +36,11 @@
             right: 10px;
         }
     }
+}
+
+.dot {
+    width: 5px;
+    height: 5px;
+    flex-shrink: 0;
+    border-radius: 100px;
 }

@@ -7,11 +7,17 @@ export default function index() {
     return (
         <div className="flex gap-2 items-start content-start w-full">
             <Avatar className="w-9" />
-            <div className="w-full flex flex-col justify-start gap-4">
+            <div className="w-full flex flex-col justify-around gap-4">
                 <Textarea
                     color="gray"
                     rows={25}
                     placeholder="Start writing ..."
+                    labelProps={{
+                        className: 'before:content-none after:content-none',
+                    }}
+                    containerProps={{
+                        className: 'grid h-full',
+                    }}
                     className={`font-semibold text-sm rounded-lg start-0 p-4 ${style.border}`}
                 />
                 <div className="flex items-center justify-end w-full">

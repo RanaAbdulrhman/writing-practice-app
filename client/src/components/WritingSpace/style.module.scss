@@ -1,5 +1,4 @@
 .border {
-    box-sizing: border-box;
     border: 1px solid var(--stroke, #e2e8f0);
     &:focus {
         outline: none !important;

@@ -1,0 +1,23 @@
+.correctionCard {
+    border-radius: 14px;
+    border: 1px solid #e9e9e9;
+    background: #fdfdfd;
+
+    font-family: Plus Jakarta Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 15px;
+    .iconContainer {
+        display: flex;
+        padding-top: 1px;
+        align-items: center;
+    }
+    .description {
+        display: flex;
+        align-items: flex-start;
+        color: #535e6d;
+        line-height: 18px;
+        font-size: 14px;
+    }
+}
