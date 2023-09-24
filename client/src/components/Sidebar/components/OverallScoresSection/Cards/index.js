@@ -44,7 +44,7 @@ const DetailedScoreCard = ({ typeIndex, score, description }) => {
     const [expanded, setExpanded] = useState(false)
 
     function toggleExpanded() {
-        setExpanded((prev) => setExpanded(!prev))
+        setExpanded(!expanded)
     }
 
     return (
