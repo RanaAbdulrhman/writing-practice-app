@@ -4,6 +4,7 @@
         outline: none !important;
         border: 1.2px solid var(--stroke, #c6cbd2);
     }
+    white-space: pre-line;
 }
 .wordCount {
     font-size: 12px;
@@ -29,4 +30,12 @@
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
+}
+.spellingHighlightedWord {
+    background-color: #ea153721;
+    text-decoration-line: underline;
+}
+.grammerHighlightedWord {
+    background-color: rgba(255, 201, 64, 0.218);
+    text-decoration-line: underline;
 }

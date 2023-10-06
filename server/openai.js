@@ -6,29 +6,29 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 })
 
-const systemPrompt = `Give an approximate score for each criterion (Task Achievement,  Coherence and cohesion, Lexical resource, Grammatical range and accuracy) given the Score Descriptors in the IELTS exam for each one, be human-like; don't take descriptors too literally. A score can be from 0 to 9, in increments of 0.5. You will be given a specific topic and an Essay. Give the result in a JSON format as follows:
+const systemPrompt = `Give an approximate score for each criterion (Task Achievement,  Coherence and cohesion, Lexical resource, Grammatical range and accuracy) given the Score Descriptors in the IELTS exam for each one, be human-like; don't take descriptors too literally. A score can be from 0 to 9, in increments of 0.5. You will be given a specific topic and an Essay. Give the result in a JSON format EXACTLY as follows:
   {
     TaskAchievement: {
       score: 5,
       description:
-        "Your response partially addresses the task by discussing the negative effects of globalization on the world economy. However, it does not specifically address the topic of housing and accommodation becoming a major problem in many countries.",
+        "Your response partially addresses the task by discussing the negative effects of globalization on the world economy. However, it does not specifically address the topic of housing and accommodation becoming a major problem in many countries."
     },
     CoherenceCohesion: {
       score: 6,
       description:
-        "Your essay lacks clear organization and progression of ideas. The ideas presented are not arranged coherently and there is no clear overall progression in the essay. Additionally, there is a lack of cohesive devices and the use of paragraphs is inadequate.",
+        "Your essay lacks clear organization and progression of ideas. The ideas presented are not arranged coherently and there is no clear overall progression in the essay. Additionally, there is a lack of cohesive devices and the use of paragraphs is inadequate."
     },
     LexicalResource: {
       score: 5.5,
       description:
-        "The vocabulary you used is basic and repetitive. There are also errors in word choice and word formation. These errors may cause some difficulty for the reader.",
+        "The vocabulary you used is basic and repetitive. There are also errors in word choice and word formation. These errors may cause some difficulty for the reader."
     },
     GrammaticalRangeAccuracy: {
       score: 6,
       description:
-        "The response demonstrates a limited range of sentence structures and there are frequent grammatical errors and faulty punctuation. These errors may cause difficulty for the reader in understanding the message.",
-    },
-  };
+        "The response demonstrates a limited range of sentence structures and there are frequent grammatical errors and faulty punctuation. These errors may cause difficulty for the reader in understanding the message."
+    }
+  }
 
   Band 9:
   Task Achievement:
@@ -197,24 +197,23 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * Wrote a entirely memorised response
 `
 
-// const userExample = `Topic: Some people believe that entertainers are paid too much and their impact on society is negative, while others disagree and believe that they deserve the money that they make because of their positive effects on society. Discuss both opinions and give your own opinion.
-// Essay: The entertainment industry is one of the largest sectors in all around the world. Some think that the people who work in that industry earn too much money considering their bad influence on society, and I agree.  Others, however, believe that their positive impact on others is worth the money
-// that they are paid. On the one hand, there is no doubt that show business is an enormous and unfairly well paid sector. In addition to that, members of it do not add real value, compared to others like, for instance, education workers. Although in some countries teachers live with unreasonable wages,
-// their responsibility, is extremely valuable for next generations become better people. Whereas a singer can earn double their yearly salary from one concert. The other important point is, for a balanced and equal society, the difference between income levels must not be very high. Regardless than their
-// contribution, no one should make billions of dollars that easily, because that imbalance does have a significant negative impact on societies. On the other hand, some people think that entertainers’ contribution to the modern life is worth the money they earn. It can be understood that for many people,
-// watching a movie or going to a concert is irreplaceable with other activities; therefore, they think that their positive impact is crucial for a significant proportion of people. In addition to that, celebrities do compromise their privacy and freedom with being known by many others. In exchange of that, they do deserve a comfortable life with significantly better paychecks. In conclusion, despite their minimal contribution with their work to the people and sacrifice from their private life; I believe that their impact is far from being positive and they are not paid fairly or balanced with others.`
+const userExample = `Topic: Some people believe that entertainers are paid too much and their impact on society is negative, while others disagree and believe that they deserve the money that they make because of their positive effects on society. Discuss both opinions and give your own opinion.
+Essay: The entertainment industry is one of the largest sectors in all around the world. Some think that the people who work in that industry earn too much money considering their bad influence on society, and I agree.  Others, however, believe that their positive impact on others is worth the money
+that they are paid. On the one hand, there is no doubt that show business is an enormous and unfairly well paid sector. In addition to that, members of it do not add real value, compared to others like, for instance, education workers. Although in some countries teachers live with unreasonable wages,
+their responsibility, is extremely valuable for next generations become better people. Whereas a singer can earn double their yearly salary from one concert. The other important point is, for a balanced and equal society, the difference between income levels must not be very high. Regardless than their
+contribution, no one should make billions of dollars that easily, because that imbalance does have a significant negative impact on societies. On the other hand, some people think that entertainers’ contribution to the modern life is worth the money they earn. It can be understood that for many people,
+watching a movie or going to a concert is irreplaceable with other activities; therefore, they think that their positive impact is crucial for a significant proportion of people. In addition to that, celebrities do compromise their privacy and freedom with being known by many others. In exchange of that, they do deserve a comfortable life with significantly better paychecks. In conclusion, despite their minimal contribution with their work to the people and sacrifice from their private life; I believe that their impact is far from being positive and they are not paid fairly or balanced with others.`
 
-async function generateResponse() {
+async function generateResponse(essay) {
     const chatCompletion = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         temperature: 1.4,
-
+        max_tokens: 1000,
         messages: [
             { role: 'system', content: systemPrompt },
-            { role: 'user', content: userExample },
+            { role: 'user', content: essay },
         ],
     })
-
     return chatCompletion.choices[0].message
 }
 

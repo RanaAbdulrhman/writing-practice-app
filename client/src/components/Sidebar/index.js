@@ -11,24 +11,36 @@ import {
     HintsAndSuggestionsSection,
 } from './components'
 
-export default function Sidebar() {
-    const [activeTab, setActiveTab] = useState(0)
-
+export default function Sidebar({
+    activeTab,
+    setActiveTab,
+    scores,
+    spellingMistakesList,
+    grammerMistakesList,
+}) {
     const tabs = [
         {
             title: 'Overall Scores',
             icon: <OverallScoreIcon />,
-            content: <OverallScoresSection />,
+            content: <OverallScoresSection scores={scores} />,
         },
         {
             title: 'Spelling Mistakes',
             icon: <SpellingMistakesIcon style={{ marginBottom: '3px' }} />,
-            content: <SpellingMistakesSection />,
+            content: (
+                <SpellingMistakesSection
+                    spellingMistakesList={spellingMistakesList}
+                />
+            ),
         },
         {
             title: 'Grammer Mistakes',
             icon: <GrammerMistakesIcon />,
-            content: <GrammerMistakesSection />,
+            content: (
+                <GrammerMistakesSection
+                    grammerMistakesList={grammerMistakesList}
+                />
+            ),
         },
         {
             title: 'Hints & Suggestions',
@@ -51,13 +63,15 @@ export default function Sidebar() {
     ))
 
     return (
-        <div
-            className={`relative w-full h-full bg-white ${style.sidebarContainer} transition-transform -translate-x-full sm:translate-x-0 pt-12`}
-        >
-            <div className="w-9/12 ps-5">{tabs[activeTab].content}</div>
-            <ul className="space-y-2 absolute top-1 -right-6 mt-12 ">
-                {tabComponents}
-            </ul>
-        </div>
+        scores && (
+            <div
+                className={`relative w-full h-full bg-white ${style.sidebarContainer} transition-transform -translate-x-full sm:translate-x-0 pt-12`}
+            >
+                <div className="w-9/12 ps-5">{tabs[activeTab].content}</div>
+                <ul className="space-y-2 absolute top-1 -right-6 mt-12 ">
+                    {tabComponents}
+                </ul>
+            </div>
+        )
     )
 }
