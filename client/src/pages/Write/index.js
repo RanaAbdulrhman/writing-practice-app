@@ -3,6 +3,7 @@ import TopicBar from 'components/TopicBar'
 import WritingSpace from 'components/WritingSpace'
 import Sidebar from 'components/Sidebar'
 import axios from 'axios'
+import Timer from './components/Timer'
 export default function Index() {
     const [isEvaluate, setIsEvaluate] = useState(false)
     const [activeTab, setActiveTab] = useState(0)
@@ -10,6 +11,7 @@ export default function Index() {
     const [grammerMistakesList, setGrammerMistakesList] = useState(null)
     const [scores, setScores] = useState(null)
     const [essay, setEssay] = useState('')
+    const [isTextareaActive, setIsTextareaActive] = useState(false)
 
     async function loadScores(essay) {
         // setLoading(true)
@@ -118,11 +120,20 @@ export default function Index() {
         setEssay(essay)
         setIsEvaluate(true)
     }
+    console.log(isTextareaActive)
 
     return (
         <div className="flex flex-col items-center justify-center w-full min-h-full flex-grow-1">
             <div className="flex justify-between gap-12 w-full xl:flex-nowrap sm:flex-wrap min-h-screen">
-                <div className="flex flex-col items-center relative top-14 gap-12 px-8 xl:w-3/4 sm:w-full ">
+                <div
+                    className={`flex flex-col items-center relative top-14 gap-12 px-8  ${
+                        isEvaluate ? 'xl:w-3/4 sm:w-full' : 'w-full'
+                    }`}
+                >
+                    <div className="flex w-full justify-end">
+                        <Timer isActive={isTextareaActive} />
+                    </div>
+
                     <TopicBar />
                     <WritingSpace
                         disabled={isEvaluate}
@@ -131,6 +142,7 @@ export default function Index() {
                         spellingMistakesList={spellingMistakesList}
                         grammerMistakesList={grammerMistakesList}
                         activeTab={activeTab}
+                        setIsTextareaActive={setIsTextareaActive}
                     />
                 </div>
                 {isEvaluate &&

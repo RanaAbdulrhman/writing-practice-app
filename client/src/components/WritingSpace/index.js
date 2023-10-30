@@ -9,6 +9,7 @@ export default function Index({
     spellingMistakesList,
     grammerMistakesList,
     activeTab,
+    setIsTextareaActive,
 }) {
     const [wordCount, setWordCount] = useState(0)
     const [text, setText] = useState('')
@@ -69,7 +70,7 @@ export default function Index({
             )
         }
 
-        return <div>{result}</div>
+        return <div className={style.essayHolder}>{result}</div>
     }
 
     return (
@@ -120,6 +121,8 @@ export default function Index({
                             ata-gramm_editor="false"
                             data-enable-grammarly="false"
                             className={`font-semibold text-sm rounded-lg start-0 p-4 ${style.border}`}
+                            onFocus={() => setIsTextareaActive(true)}
+                            onBlur={() => setIsTextareaActive(false)}
                         ></textarea>
                     )}
 
