@@ -1,4 +1,4 @@
-.border {
+.textAreaContainer {
     border: 1px solid var(--stroke, #e2e8f0);
     &:focus {
         outline: none !important;
@@ -6,12 +6,40 @@
     }
     white-space: pre-line;
     min-height: 60vh;
+    &.clickToActivate {
+        position: relative; /* Sit on top of the page content */
+        width: 100%; /* Full width (cover the whole page) */
+        height: 100%; /* Full height (cover the whole page) */
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(
+            0,
+            0,
+            0,
+            0.04
+        ); /* Black background with opacity */
+        z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+        cursor: pointer; /* Add a pointer on hover */
+        -webkit-filter: blur(0.8px);
+        -moz-filter: blur(0.8px);
+        -o-filter: blur(0.8px);
+        -ms-filter: blur(0.8px);
+    }
 }
-.wordCount {
-    font-size: 12px;
+
+.wordCounter {
+    font-size: 11px;
     font-weight: 700;
     color: #8e8e8e;
+    .currentNumberOfWords {
+        font-size: 13px;
+        font-weight: 700;
+        color: #8e8e8e;
+    }
 }
+
 .button {
     border-radius: 45px;
     background: linear-gradient(

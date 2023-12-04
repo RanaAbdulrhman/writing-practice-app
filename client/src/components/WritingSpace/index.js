@@ -9,6 +9,7 @@ export default function Index({
     spellingMistakesList,
     grammerMistakesList,
     activeTab,
+    isTextareaActive,
     setIsTextareaActive,
 }) {
     const [wordCount, setWordCount] = useState(0)
@@ -73,15 +74,40 @@ export default function Index({
         return <div className={style.essayHolder}>{result}</div>
     }
 
+    let color = 'gray'
+
+    if (!isEvaluate) {
+        if (wordCount >= 250 && wordCount <= 300) {
+            color = 'green'
+        } else if (
+            (wordCount >= 200 && wordCount < 250) ||
+            (wordCount > 300 && wordCount <= 350)
+        ) {
+            color = 'orange'
+        } else {
+            color = 'red'
+        }
+    } else {
+        color = 'gray'
+    }
+
     return (
         <div className="flex flex-col gap-2 items-start content-start w-full">
-            <div className={`${style.wordCount} ms-12`}>{wordCount} words</div>
+            <div className={`${style.wordCounter} ms-12`}>
+                <span
+                    className={style.currentNumberOfWords}
+                    style={{ color: color }}
+                >
+                    {wordCount}
+                </span>
+                / 250 words
+            </div>
             <div className="flex gap-2 items-start content-start w-full">
                 <Avatar className="w-9" />
-                <div className="w-full flex flex-col justify-around gap-4">
+                <div className="w-full flex flex-col justify-around gap-3">
                     {isEvaluate ? (
                         <div
-                            className={`font-semibold text-sm rounded-lg start-0 p-4 ${style.border}`}
+                            className={`font-semibold text-sm rounded-lg start-0 p-4 ${style.textAreaContainer}`}
                         >
                             {activeTab === 1
                                 ? spellingMistakesList && (
@@ -102,28 +128,34 @@ export default function Index({
                                 : text}
                         </div>
                     ) : (
-                        <textarea
-                            color="gray"
-                            rows={25}
-                            placeholder="Start writing ..."
-                            labelProps={{
-                                className:
-                                    'before:content-none after:content-none',
-                            }}
-                            containerProps={{
-                                className: 'grid h-full',
-                            }}
-                            value={text}
-                            spellcheck="false"
-                            onChange={textChangeHandler}
-                            disabled={disabled}
-                            data-gramm="false"
-                            ata-gramm_editor="false"
-                            data-enable-grammarly="false"
-                            className={`font-semibold text-sm rounded-lg start-0 p-4 ${style.border}`}
-                            onFocus={() => setIsTextareaActive(true)}
-                            onBlur={() => setIsTextareaActive(false)}
-                        ></textarea>
+                        <>
+                            <textarea
+                                color="gray"
+                                rows={25}
+                                placeholder="Start writing ..."
+                                labelProps={{
+                                    className:
+                                        'before:content-none after:content-none',
+                                }}
+                                containerProps={{
+                                    className: 'grid h-full',
+                                }}
+                                value={text}
+                                spellcheck="false"
+                                onChange={textChangeHandler}
+                                disabled={disabled}
+                                data-gramm="false"
+                                ata-gramm_editor="false"
+                                data-enable-grammarly="false"
+                                className={`font-semibold text-sm rounded-lg start-0 p-4 ${
+                                    style.textAreaContainer
+                                } ${
+                                    !isTextareaActive && style.clickToActivate
+                                }`}
+                                onFocus={() => setIsTextareaActive(true)}
+                                onBlur={() => setIsTextareaActive(false)}
+                            ></textarea>
+                        </>
                     )}
 
                     <div className="flex items-center justify-end w-full">

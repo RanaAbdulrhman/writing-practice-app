@@ -197,6 +197,39 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * Wrote a entirely memorised response
 `
 
+const suggestionsPrompt = `
+You will be given a specific topic and an essay. Give practical and clear suggestions to improve the essay and make it align with the criteria provided below. Give the result in a JSON format EXACTLY as follows: 
+{suggestions: ["suggestion here" , "suggestion here", ...etc]}
+
+criteria:
+  * Fully addresses all aspects of the task
+  * Needs to present a fully developed position in response to a question with relevant, fully extended, and well-supported ideas
+  * uses cohesion in such a way that it attracts no attention
+  * skilfully manages paragraphing
+  * uses a wide range of vocabulary with very natural and sophisticated control of lexical features; rare minor errors occur only as 'slips'
+  * uses a wide range of structures with full flexibility and accuracy; rare minor errors occur only as 'slips'`
+
+const TopicGenerationSystemPrompt = `Write one IELTS writing question given a certain topic. You will be given a topic such as Education, Globalisation, Equality, Environment, Technology, Travel and transport, Health, Law and order, Language and Culture, Government and society, or Sports and pastimes. 
+
+The question should be one of these types of essay questions:
+– To what extent do you agree or disagree? 
+– Discuss both views and give your point of view.
+– Discuss the advantages and disadvantages. 
+– Discuss the problems and possible solutions OR discuss the causes and what problems it causes.
+– Two questions, for example: Why is this happening? Is this a positive or negative development? The latter are also called direct questions.
+
+For example:  
+Topic: Education
+Questions could be: 
+- Compared to the past, more people are now studying abroad because it is more convenient and cheaper than before. Do you think this is beneficial to the foreign student’s home country? Use specific reasons and examples to support your opinion.
+
+Topic: Globalization
+Questions could be: 
+
+- Many people say that globalization and the growing number of multinational companies have a negative effect on the environment. To what extent do you agree or disagree?  Use specific reasons and examples to support your position.
+The response must only contain the suggested question.
+`
+
 const userExample = `Topic: Some people believe that entertainers are paid too much and their impact on society is negative, while others disagree and believe that they deserve the money that they make because of their positive effects on society. Discuss both opinions and give your own opinion.
 Essay: The entertainment industry is one of the largest sectors in all around the world. Some think that the people who work in that industry earn too much money considering their bad influence on society, and I agree.  Others, however, believe that their positive impact on others is worth the money
 that they are paid. On the one hand, there is no doubt that show business is an enormous and unfairly well paid sector. In addition to that, members of it do not add real value, compared to others like, for instance, education workers. Although in some countries teachers live with unreasonable wages,
@@ -217,4 +250,31 @@ async function generateResponse(essay) {
     return chatCompletion.choices[0].message
 }
 
-module.exports = { generateResponse }
+async function generateTopic(topic) {
+    const chatCompletion = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        temperature: 1.4,
+        max_tokens: 1000,
+        messages: [
+            { role: 'system', content: TopicGenerationSystemPrompt },
+            { role: 'user', content: topic },
+        ],
+    })
+    return chatCompletion.choices[0].message
+}
+
+async function generateSuggestions(essay) {
+    console.log(essay)
+    const chatCompletion = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        temperature: 1.4,
+        max_tokens: 1000,
+        messages: [
+            { role: 'system', content: suggestionsPrompt },
+            { role: 'user', content: essay },
+        ],
+    })
+    return chatCompletion.choices[0].message
+}
+
+module.exports = { generateResponse, generateSuggestions, generateTopic }

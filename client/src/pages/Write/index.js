@@ -4,12 +4,16 @@ import WritingSpace from 'components/WritingSpace'
 import Sidebar from 'components/Sidebar'
 import axios from 'axios'
 import Timer from './components/Timer'
+import TopicModal from 'pages/Main/components/TopicModal'
+
 export default function Index() {
+    const [topic, setTopic] = useState(null)
     const [isEvaluate, setIsEvaluate] = useState(false)
     const [activeTab, setActiveTab] = useState(0)
     const [spellingMistakesList, setSpellingMistakesList] = useState(null)
     const [grammerMistakesList, setGrammerMistakesList] = useState(null)
-    const [scores, setScores] = useState(null)
+    const [suggestionsList, setSuggestionsList] = useState(null)
+    const [scores, setScores] = useState()
     const [essay, setEssay] = useState('')
     const [isTextareaActive, setIsTextareaActive] = useState(false)
 
@@ -19,6 +23,23 @@ export default function Index() {
             const res = await axios.post('http://localhost:3004/submit-essay', {
                 essay: essay,
             })
+            const data = await res.data
+            return data
+        } catch (err) {
+            console.log(err)
+        }
+        // setLoading(false)
+    }
+
+    async function loadSuggestions(essay) {
+        // setLoading(true)
+        try {
+            const res = await axios.post(
+                'http://localhost:3004/generate-suggestions',
+                {
+                    essay: essay,
+                }
+            )
             const data = await res.data
             return data
         } catch (err) {
@@ -78,37 +99,39 @@ export default function Index() {
     }
 
     useEffect(() => {
-        if (activeTab === 1) {
-            extractSpellingMistakes()
-                .then((data) => {
-                    const spellingMistakes = data?.response?.errors.filter(
-                        (item) => item.type === 'spelling'
-                    )
-                    setSpellingMistakesList(spellingMistakes)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        } else if (activeTab === 2) {
-            extractGrammerMistakes()
-                .then((data) => {
-                    const grammerMistakes = data?.response?.errors.filter(
-                        (item) => item.type === 'grammar'
-                    )
-                    setGrammerMistakesList(grammerMistakes)
-                    console.log('grammer', grammerMistakes)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
-    }, [activeTab])
-
-    useEffect(() => {
+        extractSpellingMistakes()
+            .then((data) => {
+                const spellingMistakes = data?.response?.errors.filter(
+                    (item) => item.type === 'spelling'
+                )
+                setSpellingMistakesList(spellingMistakes)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        extractGrammerMistakes()
+            .then((data) => {
+                const grammerMistakes = data?.response?.errors.filter(
+                    (item) => item.type === 'grammar'
+                )
+                setGrammerMistakesList(grammerMistakes)
+                console.log('grammer', grammerMistakes)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         if (essay !== '') {
             loadScores(essay)
                 .then((data) => {
                     setScores(data)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            loadSuggestions(essay)
+                .then((data) => {
+                    setSuggestionsList(data?.suggestions)
+                    console.log('suggestions', data?.suggestions)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -120,21 +143,20 @@ export default function Index() {
         setEssay(essay)
         setIsEvaluate(true)
     }
-    console.log(isTextareaActive)
 
     return (
-        <div className="flex flex-col items-center justify-center w-full min-h-full flex-grow-1">
-            <div className="flex justify-between gap-12 w-full xl:flex-nowrap sm:flex-wrap min-h-screen">
+        <div className="flex flex-col items-center justify-center w-full h-full max-w-screen flex-grow-1 ">
+            <div className="flex justify-between gap-12 w-full xl:flex-nowrap sm:flex-wrap h-screen">
                 <div
-                    className={`flex flex-col items-center relative top-14 gap-12 px-8  ${
-                        isEvaluate ? 'xl:w-3/4 sm:w-full' : 'w-full'
+                    className={`flex flex-col items-center relative top-14 gap-5 px-8  ${
+                        isEvaluate ? 'xl:w-8/12 sm:w-full' : 'w-full'
                     }`}
                 >
                     <div className="flex w-full justify-end">
                         <Timer isActive={isTextareaActive} />
                     </div>
 
-                    <TopicBar />
+                    <TopicBar topic={localStorage.getItem('topic')} />
                     <WritingSpace
                         disabled={isEvaluate}
                         isEvaluate={isEvaluate}
@@ -142,6 +164,7 @@ export default function Index() {
                         spellingMistakesList={spellingMistakesList}
                         grammerMistakesList={grammerMistakesList}
                         activeTab={activeTab}
+                        isTextareaActive={isTextareaActive}
                         setIsTextareaActive={setIsTextareaActive}
                     />
                 </div>
@@ -154,15 +177,19 @@ export default function Index() {
                                 grammerMistakesList={grammerMistakesList}
                                 activeTab={activeTab}
                                 setActiveTab={setActiveTab}
+                                suggestionsList={suggestionsList}
                             />
                         </div>
                     ) : (
-                        <div className="xl:w-1/4 sm:w-full min-h-screen">
-                            {/* Render a loading message or placeholder here */}
+                        <div className="xl:w-1/4 sm:w-full h-screen">
                             <p>Loading...</p>
                         </div>
                     ))}
             </div>
+            {!localStorage.getItem('topic') && (
+                <TopicModal setTopic={setTopic} />
+            )}
+            {console.log(localStorage.getItem('topic'))}
         </div>
     )
 }

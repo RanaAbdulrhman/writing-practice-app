@@ -17,6 +17,7 @@ export default function Sidebar({
     scores,
     spellingMistakesList,
     grammerMistakesList,
+    suggestionsList,
 }) {
     const tabs = [
         {
@@ -45,7 +46,9 @@ export default function Sidebar({
         {
             title: 'Hints & Suggestions',
             icon: <HintsIcon />,
-            content: <HintsAndSuggestionsSection />,
+            content: (
+                <HintsAndSuggestionsSection suggestionsList={suggestionsList} />
+            ),
         },
     ]
 
@@ -65,10 +68,10 @@ export default function Sidebar({
     return (
         scores && (
             <div
-                className={`relative w-full h-full bg-white ${style.sidebarContainer} transition-transform -translate-x-full sm:translate-x-0 pt-12`}
+                className={`fixed overflow-scroll z-0 top-0 right-0 h-screen pt-12 w-4/12 bg-white ${style.sidebarContainer} transition-transform -translate-x-full sm:translate-x-0 `}
             >
                 <div className="w-9/12 ps-5">{tabs[activeTab].content}</div>
-                <ul className="space-y-2 absolute top-1 -right-6 mt-12 ">
+                <ul className="space-y-2 absolute top-0 overflow-scoll -right-4 mt-12">
                     {tabComponents}
                 </ul>
             </div>

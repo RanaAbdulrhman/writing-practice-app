@@ -21,6 +21,9 @@ export default function GrammerMistakesSection({ grammerMistakesList }) {
                 </div>
             </div>
             {CorrectionCardsList}
+            {grammerMistakesList?.length
+                ? CorrectionCardsList
+                : 'No grammer mistakes!'}
         </div>
     )
 }

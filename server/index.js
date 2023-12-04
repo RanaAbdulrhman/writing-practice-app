@@ -6,7 +6,11 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-const { generateResponse } = require('./openai')
+const {
+    generateResponse,
+    generateTopic,
+    generateSuggestions,
+} = require('./openai')
 
 function parseApiResponse(apiResponse) {
     const jsonFormattedResponse = JSON.parse(apiResponse)
@@ -51,6 +55,49 @@ app.post('/submit-essay', (req, res) => {
             console.log('Failed!', error)
         })
 })
+
+app.post('/generate-suggestions', (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
+    const { essay } = req.body
+    // Send the essay to the ChatGPT API for analysis
+    generateSuggestions(essay)
+        .then(function (response) {
+            res.write(response.content)
+            res.end()
+            console.log(response.content)
+        })
+        .catch(function (error) {
+            res.write(error.error)
+            res.end()
+            console.log('Failed!', error)
+        })
+})
+
+// Endpoint to receive the essay from the frontend
+app.post('/generate-topic', (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
+    const { topic } = req.body
+    // Send the essay to the ChatGPT API for analysis
+    generateTopic(topic)
+        .then(function (response) {
+            res.write(response.content || 'not loaded')
+            res.end()
+            console.log(response.content)
+        })
+        .catch(function (error) {
+            res.write(error)
+            res.end()
+            console.log('Failed!', error)
+        })
+})
+
+// generateTopic('technology')
+//     .then(function (response) {
+//         console.log(response.content)
+//     })
+//     .catch(function (error) {
+//         console.log('Failed!', error)
+//     })
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`)

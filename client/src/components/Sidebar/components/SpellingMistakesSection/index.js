@@ -23,7 +23,10 @@ export default function SpellingMistakesSection({ spellingMistakesList }) {
                     Alerts
                 </div>
             </div>
-            {CorrectionCardsList}
+
+            {spellingMistakesList?.length
+                ? CorrectionCardsList
+                : 'no spelling mistakes!'}
         </div>
     )
 }

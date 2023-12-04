@@ -4,7 +4,7 @@ import { OverallScoreCard, DetailedScoreCard } from './Cards'
 export default function OverallScoresSection({ scores }) {
     function formatNumberWithDecimalPlaces(number) {
         if (typeof number !== 'number' || isNaN(number)) {
-            throw new Error('Input is not a valid number')
+            return number
         }
 
         // Use toFixed to format the number with the desired decimal places
