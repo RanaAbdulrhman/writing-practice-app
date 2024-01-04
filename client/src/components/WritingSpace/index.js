@@ -131,7 +131,6 @@ export default function Index({
                         <>
                             <textarea
                                 color="gray"
-                                rows={25}
                                 placeholder="Start writing ..."
                                 labelProps={{
                                     className:

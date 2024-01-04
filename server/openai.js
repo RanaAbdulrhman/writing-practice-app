@@ -198,10 +198,16 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
 `
 
 const suggestionsPrompt = `
-You will be given a specific topic and an essay. Give practical and clear suggestions to improve the essay and make it align with the criteria provided below. Give the result in a JSON format EXACTLY as follows: 
-{suggestions: ["suggestion here" , "suggestion here", ...etc]}
+You will be given a specific topic and an IELTS essay. Give practical and clear suggestions in simple English language to improve the essay and make it align with the criteria provided below, give examples and partiular tips to improve the essay, and refer to the exact part where relevant. Put the suggestions in the following JSON structure with the key "suggestions": 
+{
+  suggestions: [
+    "..",
+    "..",
+    ".."
+  ]
+}
 
-criteria:
+IELTS essays criteria:
   * Fully addresses all aspects of the task
   * Needs to present a fully developed position in response to a question with relevant, fully extended, and well-supported ideas
   * uses cohesion in such a way that it attracts no attention

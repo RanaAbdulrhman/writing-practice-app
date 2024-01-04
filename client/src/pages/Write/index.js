@@ -4,10 +4,16 @@ import WritingSpace from 'components/WritingSpace'
 import Sidebar from 'components/Sidebar'
 import axios from 'axios'
 import Timer from './components/Timer'
+import RestartButton from './components/RestartButton'
 import TopicModal from 'pages/Main/components/TopicModal'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import ReactAppzi from 'react-appzi'
 
 export default function Index() {
+    ReactAppzi.initialize(process.env.REACT_APP_APPZI_TOKIN)
     const [topic, setTopic] = useState(null)
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth)
     const [isEvaluate, setIsEvaluate] = useState(false)
     const [activeTab, setActiveTab] = useState(0)
     const [spellingMistakesList, setSpellingMistakesList] = useState(null)
@@ -16,6 +22,15 @@ export default function Index() {
     const [scores, setScores] = useState()
     const [essay, setEssay] = useState('')
     const [isTextareaActive, setIsTextareaActive] = useState(false)
+
+    // The width below which the mobile view should be rendered
+    const breakpoint = 1420
+
+    useEffect(() => {
+        window.addEventListener('resize', () =>
+            setScreenWidth(window.innerWidth)
+        )
+    }, [])
 
     async function loadScores(essay) {
         // setLoading(true)
@@ -115,7 +130,6 @@ export default function Index() {
                     (item) => item.type === 'grammar'
                 )
                 setGrammerMistakesList(grammerMistakes)
-                console.log('grammer', grammerMistakes)
             })
             .catch((err) => {
                 console.log(err)
@@ -131,7 +145,6 @@ export default function Index() {
             loadSuggestions(essay)
                 .then((data) => {
                     setSuggestionsList(data?.suggestions)
-                    console.log('suggestions', data?.suggestions)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -145,15 +158,22 @@ export default function Index() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center w-full h-full max-w-screen flex-grow-1 ">
-            <div className="flex justify-between gap-12 w-full xl:flex-nowrap sm:flex-wrap h-screen">
+        <div className="flex flex-col items-center justify-center w-full flex-grow-1 p-10">
+            <div
+                className={`flex justify-between ${
+                    screenWidth < breakpoint ? 'flex-col' : ''
+                } w-full`}
+            >
                 <div
-                    className={`flex flex-col items-center relative top-14 gap-5 px-8  ${
-                        isEvaluate ? 'xl:w-8/12 sm:w-full' : 'w-full'
+                    className={`flex flex-col items-center   ${
+                        isEvaluate && screenWidth > breakpoint
+                            ? 'relative w-full top-14 gap-5 px-8 xl:w-8/12 sm:w-full'
+                            : 'w-full'
                     }`}
                 >
-                    <div className="flex w-full justify-end">
+                    <div className="flex w-full justify-end mb-2">
                         <Timer isActive={isTextareaActive} />
+                        <RestartButton />
                     </div>
 
                     <TopicBar topic={localStorage.getItem('topic')} />
@@ -168,28 +188,29 @@ export default function Index() {
                         setIsTextareaActive={setIsTextareaActive}
                     />
                 </div>
-                {isEvaluate &&
-                    (scores ? (
-                        <div className="xl:w-1/4 sm:w-full min-h-screen">
-                            <Sidebar
-                                scores={scores}
-                                spellingMistakesList={spellingMistakesList}
-                                grammerMistakesList={grammerMistakesList}
-                                activeTab={activeTab}
-                                setActiveTab={setActiveTab}
-                                suggestionsList={suggestionsList}
-                            />
-                        </div>
-                    ) : (
-                        <div className="xl:w-1/4 sm:w-full h-screen">
-                            <p>Loading...</p>
-                        </div>
-                    ))}
+
+                {isEvaluate && (
+                    <div
+                        className={`${
+                            screenWidth > breakpoint ? 'xl:w-1/4' : 'w-full'
+                        } `}
+                    >
+                        <Sidebar
+                            scores={scores}
+                            spellingMistakesList={spellingMistakesList}
+                            grammerMistakesList={grammerMistakesList}
+                            activeTab={activeTab}
+                            setActiveTab={setActiveTab}
+                            suggestionsList={suggestionsList}
+                        />
+                    </div>
+                )}
             </div>
             {!localStorage.getItem('topic') && (
                 <TopicModal setTopic={setTopic} />
             )}
-            {console.log(localStorage.getItem('topic'))}
+
+            {/* {console.log(localStorage.getItem('topic'))} */}
         </div>
     )
 }

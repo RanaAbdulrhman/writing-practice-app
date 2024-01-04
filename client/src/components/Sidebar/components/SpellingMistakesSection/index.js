@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import CorrectionCard from './Cards'
 import style from './style.module.scss'
 import axios from 'axios'
-
+import EmptyState from 'components/EmptyState'
 export default function SpellingMistakesSection({ spellingMistakesList }) {
     const CorrectionCardsList =
         spellingMistakesList &&
@@ -24,9 +24,14 @@ export default function SpellingMistakesSection({ spellingMistakesList }) {
                 </div>
             </div>
 
-            {spellingMistakesList?.length
-                ? CorrectionCardsList
-                : 'no spelling mistakes!'}
+            {spellingMistakesList?.length ? (
+                CorrectionCardsList
+            ) : (
+                <EmptyState
+                    title="Perfect Spelling!"
+                    desc="Well done! No spelling mistakes found in your essay."
+                />
+            )}
         </div>
     )
 }

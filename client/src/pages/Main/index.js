@@ -9,15 +9,9 @@ export default function MainPage() {
     //     generateTopic('Health')
     // }, [])
 
-    useEffect(() => {
-        if (question) {
-            console.log(question)
-        }
-    }, [question])
-
     return (
         <div>
-            <TopicModal /> {question && question}
+            <TopicModal setTopic={setQuestion} /> {question && question}
         </div>
     )
 }

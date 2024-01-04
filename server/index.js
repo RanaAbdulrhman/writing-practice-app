@@ -42,6 +42,7 @@ function parseApiResponse(apiResponse) {
 app.post('/submit-essay', (req, res) => {
     res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
     const { essay } = req.body
+    console.log('req.body', req.body)
     // Send the essay to the ChatGPT API for analysis
     generateResponse(essay)
         .then(function (response) {
@@ -50,15 +51,18 @@ app.post('/submit-essay', (req, res) => {
             console.log(response.content)
         })
         .catch(function (error) {
-            res.write(response.error)
-            res.end()
-            console.log('Failed!', error)
+            // Check if the error has a specific property indicating a user-friendly message
+            const errorMessage = error.error || 'An unexpected error occurred.'
+
+            // Send an appropriate HTTP status code and the error message
+            res.status(500).send(errorMessage)
         })
 })
 
 app.post('/generate-suggestions', (req, res) => {
     res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
     const { essay } = req.body
+    console.log('req.body', req.body)
     // Send the essay to the ChatGPT API for analysis
     generateSuggestions(essay)
         .then(function (response) {
@@ -67,9 +71,11 @@ app.post('/generate-suggestions', (req, res) => {
             console.log(response.content)
         })
         .catch(function (error) {
-            res.write(error.error)
-            res.end()
-            console.log('Failed!', error)
+            // Check if the error has a specific property indicating a user-friendly message
+            const errorMessage = error.error || 'An unexpected error occurred.'
+
+            // Send an appropriate HTTP status code and the error message
+            res.status(500).send(errorMessage)
         })
 })
 

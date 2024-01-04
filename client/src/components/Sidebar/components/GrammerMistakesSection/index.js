@@ -1,6 +1,8 @@
 import React from 'react'
 import CorrectionCard from './Cards'
 import style from './style.module.scss'
+import EmptyState from 'components/EmptyState'
+
 export default function GrammerMistakesSection({ grammerMistakesList }) {
     const CorrectionCardsList =
         grammerMistakesList &&
@@ -21,9 +23,14 @@ export default function GrammerMistakesSection({ grammerMistakesList }) {
                 </div>
             </div>
             {CorrectionCardsList}
-            {grammerMistakesList?.length
-                ? CorrectionCardsList
-                : 'No grammer mistakes!'}
+            {grammerMistakesList?.length ? (
+                CorrectionCardsList
+            ) : (
+                <EmptyState
+                    title="Perfect Grammer!"
+                    desc="Flawless! Your essay is free from grammatical errors."
+                />
+            )}
         </div>
     )
 }

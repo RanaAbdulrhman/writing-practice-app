@@ -45,6 +45,7 @@ const TopicModal = ({ setTopic }) => {
                 }
             )
             const data = await res.data
+
             setTopic(data)
             localStorage.setItem('topic', data)
             return data

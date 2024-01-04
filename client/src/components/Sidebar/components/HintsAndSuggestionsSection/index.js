@@ -1,6 +1,9 @@
 import React from 'react'
 import HintCard from './Cards'
 import style from './style.module.scss'
+import EmptyState from 'components/EmptyState'
+import { ReactComponent as EmptyImprovements } from 'assets/icons/emptyImprovements.svg'
+
 export default function HintsAndSuggestionsSection({ suggestionsList }) {
     const suggestionsCardsList =
         suggestionsList &&
@@ -16,8 +19,15 @@ export default function HintsAndSuggestionsSection({ suggestionsList }) {
                     {suggestionsList && suggestionsList?.length} Hints
                 </div>
             </div>
-
-            {suggestionsCardsList}
+            {suggestionsList?.length ? (
+                suggestionsCardsList
+            ) : (
+                <EmptyState
+                    icon={<EmptyImprovements />}
+                    title="No suggested improvements!"
+                    desc="Great job! Your essay is already at its best."
+                />
+            )}
         </div>
     )
 }

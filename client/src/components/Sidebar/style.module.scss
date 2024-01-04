@@ -15,12 +15,13 @@
         justify-content: center;
         align-items: center;
         background-color: #2263fe;
-        height: 90px;
-        width: 120px;
+        max-height: 90px;
+        max-width: 120px;
+        min-height: 70px;
         border-radius: 17.662px;
         padding-right: 18px;
         padding-left: 10px;
-
+        z-index: 10;
         color: white;
         text-align: center;
         font-size: 12px;
@@ -30,10 +31,15 @@
         cursor: pointer;
         transition: 100ms;
 
-        &.active {
+        &.desktopActive {
             background-color: #183a8a;
             position: relative;
             right: 10px;
+        }
+        &.mobileActive {
+            background-color: #183a8a;
+            position: relative;
+            top: 10px;
         }
     }
 }
