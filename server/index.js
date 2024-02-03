@@ -82,18 +82,19 @@ app.post('/generate-suggestions', (req, res) => {
 // Endpoint to receive the essay from the frontend
 app.post('/generate-topic', (req, res) => {
     res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
-    const { topic } = req.body
+    const { category } = req.body
     // Send the essay to the ChatGPT API for analysis
-    generateTopic(topic)
+    generateTopic(category)
         .then(function (response) {
             res.write(response.content || 'not loaded')
             res.end()
             console.log(response.content)
         })
         .catch(function (error) {
-            res.write(error)
-            res.end()
+            const errorMessage = error.error || 'An unexpected error occurred.'
+
             console.log('Failed!', error)
+            res.status(500).send(errorMessage)
         })
 })
 

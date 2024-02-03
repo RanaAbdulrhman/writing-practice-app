@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './style.module.scss'
 import { ReactComponent as Avatar } from 'assets/icons/PersonAvatar.svg'
 
@@ -11,14 +11,17 @@ export default function Index({
     activeTab,
     isTextareaActive,
     setIsTextareaActive,
+    essay,
+    setEssay,
 }) {
     const [wordCount, setWordCount] = useState(0)
-    const [text, setText] = useState('')
 
     let textChangeHandler = (e) => {
-        countWords(e.target.value)
-        setText(e.target.value)
+        setEssay(e.target.value)
     }
+
+    // if all essay is deleted from the outside
+    useEffect(() => countWords(essay), [essay])
 
     function countWords(str) {
         let c = 0
@@ -112,7 +115,7 @@ export default function Index({
                             {activeTab === 1
                                 ? spellingMistakesList && (
                                       <WordMistakesHighlighter
-                                          text={text}
+                                          text={essay}
                                           mistakes={spellingMistakesList}
                                           mistakeType="spelling"
                                       />
@@ -120,12 +123,12 @@ export default function Index({
                                 : activeTab === 2
                                 ? grammerMistakesList && (
                                       <WordMistakesHighlighter
-                                          text={text}
+                                          text={essay}
                                           mistakes={grammerMistakesList}
                                           mistakeType="grammar"
                                       />
                                   )
-                                : text}
+                                : essay}
                         </div>
                     ) : (
                         <>
@@ -139,7 +142,7 @@ export default function Index({
                                 containerProps={{
                                     className: 'grid h-full',
                                 }}
-                                value={text}
+                                value={essay}
                                 spellcheck="false"
                                 onChange={textChangeHandler}
                                 disabled={disabled}
@@ -156,15 +159,6 @@ export default function Index({
                             ></textarea>
                         </>
                     )}
-
-                    <div className="flex items-center justify-end w-full">
-                        <button
-                            className={`flex gap-2 items-center w-full sm:w-full xl:w-[223px] ${style.button}`}
-                            onClick={() => handleEvaluateBtnClick(text)}
-                        >
-                            Evaluate My Writing
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

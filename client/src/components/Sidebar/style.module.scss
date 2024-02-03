@@ -17,7 +17,7 @@
         background-color: #2263fe;
         max-height: 90px;
         max-width: 120px;
-        min-height: 70px;
+        min-height: 80px;
         border-radius: 17.662px;
         padding-right: 18px;
         padding-left: 10px;
@@ -34,12 +34,12 @@
         &.desktopActive {
             background-color: #183a8a;
             position: relative;
-            right: 10px;
+            right: 5px;
         }
         &.mobileActive {
             background-color: #183a8a;
             position: relative;
-            top: 10px;
+            top: 5px;
         }
     }
 }

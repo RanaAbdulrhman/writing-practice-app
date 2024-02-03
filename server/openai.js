@@ -215,7 +215,7 @@ IELTS essays criteria:
   * uses a wide range of vocabulary with very natural and sophisticated control of lexical features; rare minor errors occur only as 'slips'
   * uses a wide range of structures with full flexibility and accuracy; rare minor errors occur only as 'slips'`
 
-const TopicGenerationSystemPrompt = `Write one IELTS writing question given a certain topic. You will be given a topic such as Education, Globalisation, Equality, Environment, Technology, Travel and transport, Health, Law and order, Language and Culture, Government and society, or Sports and pastimes. 
+const TopicGenerationSystemPrompt = `Write one single IELTS writing question given a certain topic. You will be given a topic such as Education, Globalisation, Equality, Environment, Technology, Travel and transport, Health, Law and order, Language and Culture, Government and society, or Sports and pastimes. 
 
 The question should be one of these types of essay questions:
 – To what extent do you agree or disagree? 
@@ -256,14 +256,14 @@ async function generateResponse(essay) {
     return chatCompletion.choices[0].message
 }
 
-async function generateTopic(topic) {
+async function generateTopic(category) {
     const chatCompletion = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         temperature: 1.4,
         max_tokens: 1000,
         messages: [
             { role: 'system', content: TopicGenerationSystemPrompt },
-            { role: 'user', content: topic },
+            { role: 'user', content: category },
         ],
     })
     return chatCompletion.choices[0].message

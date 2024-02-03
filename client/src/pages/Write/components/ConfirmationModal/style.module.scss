@@ -1,0 +1,51 @@
+.darkBG {
+    background-color: rgba(0, 0, 0, 0.15);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+.centered {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    .modalHeading {
+        color: #23262f;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    .modalDesc {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        color: #87898e;
+    }
+    .btn {
+        border-radius: 50px;
+        display: flex;
+        width: 150px;
+        height: 30px;
+        padding: 20px 0px;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    .yesBtn {
+        color: white;
+        background: #2263fe;
+        font-weight: 500;
+
+        &:hover {
+            background: #2158d8;
+        }
+    }
+    .noBtn {
+        background: #f1f1f1;
+
+        &:hover {
+            background: #cccccc;
+        }
+    }
+}

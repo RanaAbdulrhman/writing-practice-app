@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-
+import React, { useState } from 'react'
 import styles from './style.module.scss'
+
 import { ReactComponent as TopicIcon } from 'assets/icons/topicIcon.svg'
 import { ReactComponent as CloseSign } from 'assets/icons/closeSign.svg'
 import { ReactComponent as CheckIcon } from 'assets/icons/check.svg'
@@ -16,8 +15,12 @@ import { ReactComponent as WorkIcon } from 'assets/icons/Work.svg'
 import { ReactComponent as CrimeIcon } from 'assets/icons/Crime.svg'
 import { ReactComponent as MediaIcon } from 'assets/icons/Media.svg'
 
-const TopicModal = ({ setTopic }) => {
-    const [open, setIsOpen] = useState(true)
+const TopicModal = ({
+    generateTopic,
+    openTopicModal,
+    setOpenTopicModal,
+    resetTimer,
+}) => {
     const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null)
 
     const categories = [
@@ -34,24 +37,8 @@ const TopicModal = ({ setTopic }) => {
 
     function selectCategory(index) {
         setSelectedCategoryIndex(index)
-    }
-
-    async function generateTopic(topic) {
-        try {
-            const res = await axios.post(
-                'http://localhost:3004/generate-topic',
-                {
-                    topic: topic,
-                }
-            )
-            const data = await res.data
-
-            setTopic(data)
-            localStorage.setItem('topic', data)
-            return data
-        } catch (err) {
-            console.log(err)
-        }
+        resetTimer()
+        setOpenTopicModal(false)
     }
 
     const categoryComponents = categories.map((item, index) => {
@@ -79,33 +66,35 @@ const TopicModal = ({ setTopic }) => {
     })
 
     return (
-        open && (
+        openTopicModal && (
             <>
                 <div
                     className={styles.darkBG}
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => setOpenTopicModal(false)}
                 />
                 <div className={styles.centered}>
-                    <div className={styles.modal}>
+                    <div
+                        className={`${styles.modal} transition-all	ease-in-out delay-150`}
+                    >
                         <div className={styles.modalHeader}>
                             <div className={styles.modalIcon}>
                                 <TopicIcon />
                             </div>
 
                             <button
-                                className={styles.closeBtn}
-                                onClick={() => setIsOpen(false)}
+                                className={` text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white ${styles.closeBtn}`}
+                                onClick={() => setOpenTopicModal(false)}
                             >
                                 <CloseSign />
                             </button>
                         </div>
                         <div className={styles.modalContent}>
                             <h5 className={styles.heading}>
-                                Choose a Topic Type
+                                Choose a Topic Category
                             </h5>
                             <p className={styles.modalDesc}>
-                                Select the topic type that interests you the
-                                most, and we'll generate a relevant discussion
+                                Select the topic category that interests you the
+                                most, and we'll generate a relevant writing
                                 topic for you.
                             </p>
                         </div>
@@ -113,11 +102,12 @@ const TopicModal = ({ setTopic }) => {
                             {categoryComponents}
                         </div>
                         <button
-                            onClick={() =>
-                                generateTopic(
+                            onClick={() => {
+                                let category =
                                     categories[selectedCategoryIndex].name
-                                )
-                            }
+                                localStorage.setItem('category', category)
+                                generateTopic(category)
+                            }}
                             className={styles.actionButton}
                         >
                             Generate a Topic

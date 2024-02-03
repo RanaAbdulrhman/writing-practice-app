@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import style from './style.module.scss'
-import { useStopwatch } from 'react-timer-hook'
 
-export default function Timer({ isActive }) {
-    const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
-        useStopwatch({ autoStart: true })
+export default function Timer({
+    seconds,
+    minutes,
+    hours,
+    start,
+    pause,
+    isActive,
+}) {
     const [isOverTime, setIsOverTime] = useState(false)
     const formatTime = (time) => {
         return String(time).padStart(2, '0')
