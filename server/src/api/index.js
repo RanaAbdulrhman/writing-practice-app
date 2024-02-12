@@ -38,9 +38,19 @@ const {
 //     return formattedResult
 // }
 
+// Allowed origins
+const allowedOrigins = [
+    'http://localhost:3005',
+    'https://api-writing-practice-app.vercel.app',
+]
+const origin = req.headers.origin
+
 // Endpoint to receive the essay from the frontend
 app.post('/api/submit-essay', (req, res) => {
-    res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
+    if (allowedOrigins.includes(origin)) {
+        // Set the Access-Control-Allow-Origin header for allowed origins
+        res.setHeader('Access-Control-Allow-Origin', origin)
+    }
     const { essay } = req.body
     console.log('req.body', req.body)
     // Send the essay to the ChatGPT API for analysis
@@ -60,7 +70,10 @@ app.post('/api/submit-essay', (req, res) => {
 })
 
 app.post('/api/generate-suggestions', (req, res) => {
-    res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
+    if (allowedOrigins.includes(origin)) {
+        // Set the Access-Control-Allow-Origin header for allowed origins
+        res.setHeader('Access-Control-Allow-Origin', origin)
+    }
     const { essay } = req.body
     console.log('req.body', req.body)
     // Send the essay to the ChatGPT API for analysis
@@ -81,7 +94,10 @@ app.post('/api/generate-suggestions', (req, res) => {
 
 // Endpoint to receive the essay from the frontend
 app.post('/api/generate-topic', (req, res) => {
-    res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
+    if (allowedOrigins.includes(origin)) {
+        // Set the Access-Control-Allow-Origin header for allowed origins
+        res.setHeader('Access-Control-Allow-Origin', origin)
+    }
     const { category } = req.body
     // Send the essay to the ChatGPT API for analysis
     generateTopic(category)
