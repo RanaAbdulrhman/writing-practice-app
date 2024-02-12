@@ -6,7 +6,6 @@ import axios from 'axios'
 import Timer from './components/Timer'
 import RestartSession from './components/RestartSession'
 import TopicModal from 'pages/Write/components/TopicModal'
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import ReactAppzi from 'react-appzi'
 import { useStopwatch } from 'react-timer-hook'
@@ -52,9 +51,12 @@ export default function Index() {
     async function loadScores(essay) {
         // setLoading(true)
         try {
-            const res = await axios.post('http://localhost:3004/submit-essay', {
-                essay: essay,
-            })
+            const res = await axios.post(
+                'http://localhost:3004/api/submit-essay',
+                {
+                    essay: essay,
+                }
+            )
             const data = await res.data
             return data
         } catch (err) {
@@ -68,7 +70,7 @@ export default function Index() {
         // setLoading(true)
         try {
             const res = await axios.post(
-                'http://localhost:3004/generate-suggestions',
+                'http://localhost:3004/api/generate-suggestions',
                 {
                     essay: essay,
                 }
@@ -179,7 +181,7 @@ export default function Index() {
         setIsTopicLoading(true)
         try {
             const res = await axios.post(
-                'http://localhost:3004/generate-topic',
+                'http://localhost:3004/api/generate-topic',
                 {
                     category: category,
                 }

@@ -10,36 +10,36 @@ const {
     generateResponse,
     generateTopic,
     generateSuggestions,
-} = require('./openai')
+} = require('../openai')
 
-function parseApiResponse(apiResponse) {
-    const jsonFormattedResponse = JSON.parse(apiResponse)
-    console.log(jsonFormattedResponse)
+// function parseApiResponse(apiResponse) {
+//     const jsonFormattedResponse = JSON.parse(apiResponse)
+//     console.log(jsonFormattedResponse)
 
-    const keyMappings = {
-        TaskAchievement: 'TaskAchievement',
-        CoherenceCohesion: 'CoherenceCohesion',
-        LexicalResource: 'LexicalResource',
-        GrammaticalRangeAccuracy: 'GrammaticalRangeAccuracy',
-    }
+//     const keyMappings = {
+//         TaskAchievement: 'TaskAchievement',
+//         CoherenceCohesion: 'CoherenceCohesion',
+//         LexicalResource: 'LexicalResource',
+//         GrammaticalRangeAccuracy: 'GrammaticalRangeAccuracy',
+//     }
 
-    const formattedResult = {}
+//     const formattedResult = {}
 
-    for (const [key, formattedKey] of Object.entries(keyMappings)) {
-        const item = apiResponse[key]
-        if (item) {
-            formattedResult[formattedKey] = {
-                score: item.score,
-                description: item.description,
-            }
-        }
-    }
+//     for (const [key, formattedKey] of Object.entries(keyMappings)) {
+//         const item = apiResponse[key]
+//         if (item) {
+//             formattedResult[formattedKey] = {
+//                 score: item.score,
+//                 description: item.description,
+//             }
+//         }
+//     }
 
-    return formattedResult
-}
+//     return formattedResult
+// }
 
 // Endpoint to receive the essay from the frontend
-app.post('/submit-essay', (req, res) => {
+app.post('/api/submit-essay', (req, res) => {
     res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
     const { essay } = req.body
     console.log('req.body', req.body)
@@ -59,7 +59,7 @@ app.post('/submit-essay', (req, res) => {
         })
 })
 
-app.post('/generate-suggestions', (req, res) => {
+app.post('/api/generate-suggestions', (req, res) => {
     res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
     const { essay } = req.body
     console.log('req.body', req.body)
@@ -80,7 +80,7 @@ app.post('/generate-suggestions', (req, res) => {
 })
 
 // Endpoint to receive the essay from the frontend
-app.post('/generate-topic', (req, res) => {
+app.post('/api/generate-topic', (req, res) => {
     res.set('Access-Control-Allow-Origin', 'http://localhost:3005')
     const { category } = req.body
     // Send the essay to the ChatGPT API for analysis
