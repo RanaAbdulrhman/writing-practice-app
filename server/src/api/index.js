@@ -41,7 +41,7 @@ const {
 // Allowed origins
 const allowedOrigins = [
     'http://localhost:3005',
-    'https://api-writing-practice-app.vercel.app',
+    'https://api-writing-practice-app.vercel.app/',
 ]
 
 // Endpoint to receive the essay from the frontend
