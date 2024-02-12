@@ -4,7 +4,9 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon server/index.js"
+        "start": "node src/api/index.js",
+        "dev": "nodemon src/api/index.js",
+        "vercel-build": "echo hello"
     },
     "prettier": {
         "trailingComma": "es5",
