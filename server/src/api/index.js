@@ -12,36 +12,10 @@ const {
     generateSuggestions,
 } = require('../../openai')
 
-// function parseApiResponse(apiResponse) {
-//     const jsonFormattedResponse = JSON.parse(apiResponse)
-//     console.log(jsonFormattedResponse)
-
-//     const keyMappings = {
-//         TaskAchievement: 'TaskAchievement',
-//         CoherenceCohesion: 'CoherenceCohesion',
-//         LexicalResource: 'LexicalResource',
-//         GrammaticalRangeAccuracy: 'GrammaticalRangeAccuracy',
-//     }
-
-//     const formattedResult = {}
-
-//     for (const [key, formattedKey] of Object.entries(keyMappings)) {
-//         const item = apiResponse[key]
-//         if (item) {
-//             formattedResult[formattedKey] = {
-//                 score: item.score,
-//                 description: item.description,
-//             }
-//         }
-//     }
-
-//     return formattedResult
-// }
-
 // Allowed origins
 const allowedOrigins = [
     'http://localhost:3005',
-    'https://api-writing-practice-app.vercel.app/',
+    'https://immersive-writing.vercel.app.vercel.app/',
 ]
 
 // Endpoint to receive the essay from the frontend
