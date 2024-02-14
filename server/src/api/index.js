@@ -21,6 +21,7 @@ const allowedOrigins = [
 // Endpoint to receive the essay from the frontend
 app.post('/api/submit-essay', (req, res) => {
     const origin = req.headers.origin
+    console.log(origin)
     if (allowedOrigins.includes(origin)) {
         // Set the Access-Control-Allow-Origin header for allowed origins
         res.setHeader('Access-Control-Allow-Origin', origin)
@@ -70,6 +71,7 @@ app.post('/api/generate-suggestions', (req, res) => {
 // Endpoint to receive the essay from the frontend
 app.post('/api/generate-topic', (req, res) => {
     const origin = req.headers.origin
+    console.log(origin)
     if (allowedOrigins.includes(origin)) {
         // Set the Access-Control-Allow-Origin header for allowed origins
         res.setHeader('Access-Control-Allow-Origin', origin)
