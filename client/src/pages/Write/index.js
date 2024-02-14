@@ -51,7 +51,7 @@ export default function Index() {
     // setLoading(true)
     try {
       const res = await axios.post(
-        `http://${process.env.REACT_APP_API_BASE}/api/submit-essay`,
+        `${process.env.REACT_APP_API_BASE}/api/submit-essay`,
         {
           essay: essay,
         }
@@ -69,7 +69,7 @@ export default function Index() {
     // setLoading(true)
     try {
       const res = await axios.post(
-        `http://${process.env.REACT_APP_API_BASE}/api/generate-suggestions`,
+        `${process.env.REACT_APP_API_BASE}/api/generate-suggestions`,
         {
           essay: essay,
         }
@@ -178,7 +178,7 @@ export default function Index() {
     setIsTopicLoading(true);
     try {
       const res = await axios.post(
-        `http://${process.env.REACT_APP_API_BASE}/api/generate-topic`,
+        `${process.env.REACT_APP_API_BASE}/api/generate-topic`,
         {
           category: category,
         }
