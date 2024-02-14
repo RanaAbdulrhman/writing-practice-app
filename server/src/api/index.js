@@ -15,7 +15,7 @@ const {
 // Allowed origins
 const allowedOrigins = [
     'http://localhost:3005',
-    'https://immersive-writing.vercel.app.vercel.app/',
+    'https://immersive-writing.vercel.app/',
 ]
 
 // Endpoint to receive the essay from the frontend
