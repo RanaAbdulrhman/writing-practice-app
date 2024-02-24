@@ -17,15 +17,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Index() {
   ReactAppzi.initialize(process.env.REACT_APP_APPZI_TOKIN);
-  console.log(process.env.REACT_APP_APPZI_TOKIN);
 
   const [topic, setTopic] = useState(null);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isEvaluate, setIsEvaluate] = useState(false);
   const [isTopicModalOpen, setIsTopicModalOpen] = useState(
-    !localStorage.getItem("category") || !localStorage.getItem("topic")
+    !sessionStorage.getItem("category") || !sessionStorage.getItem("topic")
   );
-  const [isTopicLoading, setIsTopicLoading] = useState(false);
+  const [isTopicLoading, setIsTopicLoading] = useState(true);
   const [isEvaluationLoading, setIsEvaluationLoading] = useState(false);
 
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
@@ -34,11 +33,15 @@ export default function Index() {
   const [grammerMistakesList, setGrammerMistakesList] = useState(null);
   const [suggestionsList, setSuggestionsList] = useState(null);
   const [scores, setScores] = useState();
-  const [essay, setEssay] = useState("");
+  const [essay, setEssay] = useState(sessionStorage.getItem("essay") || "");
   const [currentAction, setCurrentAction] = useState(null);
   const [isTextareaActive, setIsTextareaActive] = useState(false);
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false });
+
+  window.addEventListener("beforeunload", () => {
+    sessionStorage.setItem("essay", essay);
+  });
 
   // The width below which the mobile view should be rendered
   const breakpoint = 1420;
@@ -47,7 +50,7 @@ export default function Index() {
     window.addEventListener("resize", () => setScreenWidth(window.innerWidth));
   }, []);
 
-  async function loadScores(essay) {
+  async function loadScores() {
     // setLoading(true)
     try {
       const res = await axios.post(
@@ -57,6 +60,7 @@ export default function Index() {
         }
       );
       const data = await res.data;
+
       return data;
     } catch (err) {
       toast.error(err, {});
@@ -65,7 +69,7 @@ export default function Index() {
     // setLoading(false)
   }
 
-  async function loadSuggestions(essay) {
+  async function loadSuggestions() {
     // setLoading(true)
     try {
       const res = await axios.post(
@@ -125,7 +129,6 @@ export default function Index() {
 
     try {
       const response = await axios.request(options);
-      // console.log(response.data)
       return response.data;
     } catch (error) {
       toast.error(error.message, {});
@@ -133,49 +136,7 @@ export default function Index() {
     }
   }
 
-  // useEffect(() => {
-  //     if (essay) {
-  //         extractSpellingMistakes()
-  //             .then((data) => {
-  //                 const spellingMistakes = data?.response?.errors.filter(
-  //                     (item) => item.type === 'spelling'
-  //                 )
-  //                 setSpellingMistakesList(spellingMistakes)
-  //             })
-  //             .catch((err) => {
-  //                 console.log(err)
-  //             })
-  //         extractGrammerMistakes()
-  //             .then((data) => {
-  //                 const grammerMistakes = data?.response?.errors.filter(
-  //                     (item) => item.type === 'grammar'
-  //                 )
-  //                 setGrammerMistakesList(grammerMistakes)
-  //             })
-  //             .catch((err) => {
-  //                 console.log(err)
-  //             })
-  //         if (essay !== '') {
-  //             loadScores(essay)
-  //                 .then((data) => {
-  //                     setScores(data)
-  //                 })
-  //                 .catch((err) => {
-  //                     console.log(err)
-  //                 })
-  //             loadSuggestions(essay)
-  //                 .then((data) => {
-  //                     setSuggestionsList(data?.suggestions)
-  //                 })
-  //                 .catch((err) => {
-  //                     console.log(err)
-  //                 })
-  //         }
-  //     }
-  // }, [essay])
-
   async function generateTopic(category) {
-    setIsTopicLoading(true);
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_API_BASE}/api/generate-topic`,
@@ -185,7 +146,7 @@ export default function Index() {
       );
       const data = await res.data;
       setTopic(data);
-      localStorage.setItem("topic", data);
+      sessionStorage.setItem("topic", data);
       setIsTopicModalOpen(false);
       setIsTopicLoading(false);
       return data;
@@ -196,12 +157,11 @@ export default function Index() {
     setIsTopicLoading(false);
   }
 
-  const handleEvaluateBtnClick = (essay) => {
-    setEssay(essay);
-
+  const handleEvaluateBtnClick = () => {
     if (essay) {
       setIsEvaluationLoading(true);
-      loadScores(essay)
+
+      loadScores()
         .then((data) => {
           setScores(data);
           setIsEvaluationLoading(false);
@@ -233,7 +193,7 @@ export default function Index() {
           console.log(err.message);
         });
 
-      loadSuggestions(essay)
+      loadSuggestions()
         .then((data) => {
           setSuggestionsList(data?.suggestions);
         })
@@ -249,7 +209,7 @@ export default function Index() {
   }
 
   function generateNewTopic() {
-    generateTopic(localStorage.getItem("category"));
+    generateTopic(sessionStorage.getItem("category"));
     resetTimer();
   }
 
@@ -323,13 +283,12 @@ export default function Index() {
           </div>
 
           <TopicBar
-            topic={localStorage.getItem("topic")}
+            topic={sessionStorage.getItem("topic")}
             isLoading={isTopicLoading}
           />
           <WritingSpace
             disabled={isEvaluate}
             isEvaluate={isEvaluate}
-            handleEvaluateBtnClick={handleEvaluateBtnClick}
             spellingMistakesList={spellingMistakesList}
             grammerMistakesList={grammerMistakesList}
             activeTab={activeTab}
@@ -338,34 +297,40 @@ export default function Index() {
             essay={essay}
             setEssay={setEssay}
           />
-          <div className="flex items-center justify-end w-full mt-4">
-            {isEvaluate || (
-              <button
-                className={`flex gap-2 items-center w-full sm:w-full xl:w-[223px] ${style.button}`}
-                onClick={() => handleEvaluateBtnClick(essay)}
-              >
-                {isEvaluationLoading ? (
-                  <svg
-                    aria-hidden="true"
-                    class="w-6 h-6 text-gray-200 animate-spin fill-blue-600"
-                    viewBox="0 0 100 101"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                      fill="currentColor"
-                    />
-                    <path
-                      d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                      fill="currentFill"
-                    />
-                  </svg>
-                ) : (
-                  "Evaluate My Writing"
-                )}
-              </button>
-            )}
+          <div className="flex gap-2 justify-between w-full">
+            <div className="w-9"></div>
+            <div className="flex items-center justify-end w-full mt-4">
+              {isEvaluate || (
+                <button
+                  className={`flex gap-2 items-center w-full sm:w-full xl:w-[223px] ${style.button}`}
+                  onClick={() => {
+                    handleEvaluateBtnClick();
+                    setIsEvaluate(true);
+                  }}
+                >
+                  {isEvaluationLoading ? (
+                    <svg
+                      aria-hidden="true"
+                      class="w-6 h-6 text-gray-200 animate-spin fill-blue-600"
+                      viewBox="0 0 100 101"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill"
+                      />
+                    </svg>
+                  ) : (
+                    "Evaluate My Writing"
+                  )}
+                </button>
+              )}
+            </div>
           </div>
         </div>
 

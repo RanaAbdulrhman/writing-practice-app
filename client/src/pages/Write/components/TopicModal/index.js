@@ -69,23 +69,23 @@ const TopicModal = ({
       <>
         <div
           className={styles.darkBG}
-          onClick={() => setOpenTopicModal(false)}
+          //   onClick={() => setOpenTopicModal(false)}
         />
         <div className={styles.centered}>
           <div
-            className={`${styles.modal} transition-all	ease-in-out delay-150`}
+            className={`${styles.modal} transition-all ease-in-out delay-150`}
           >
             <div className={styles.modalHeader}>
               <div className={styles.modalIcon}>
                 <TopicIcon />
               </div>
 
-              <button
+              {/* <button
                 className={` text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white ${styles.closeBtn}`}
                 onClick={() => setOpenTopicModal(false)}
               >
                 <CloseSign />
-              </button>
+              </button> */}
             </div>
             <div className={styles.modalContent}>
               <h5 className={styles.heading}>Choose a Topic Category</h5>
@@ -98,7 +98,7 @@ const TopicModal = ({
             <button
               onClick={() => {
                 let category = categories[selectedCategoryIndex].name;
-                localStorage.setItem("category", category);
+                sessionStorage.setItem("category", category);
                 generateTopic(category);
               }}
               className={styles.actionButton}

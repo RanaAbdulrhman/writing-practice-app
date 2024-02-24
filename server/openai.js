@@ -6,7 +6,8 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 })
 
-const systemPrompt = `Give an approximate score for each criterion (Task Achievement,  Coherence and cohesion, Lexical resource, Grammatical range and accuracy) given the Score Descriptors in the IELTS exam for each one, be human-like; don't take descriptors too literally. A score can be from 0 to 9, in increments of 0.5. You will be given a specific topic and an Essay. Give the result in a JSON format EXACTLY as follows:
+const systemPrompt = `Give an approximate score for each criterion (Task Achievement,  Coherence and cohesion, Lexical resource, Grammatical range and accuracy) given the Score Descriptors in the IELTS exam for each one, be human-like; don't take descriptors too literally. A score can be from 0 to 9, in increments of 0.5. You will be given a specific topic and an essay. 
+  Give the result in a JSON format EXACTLY as follows:
   {
     TaskAchievement: {
       score: 5,
@@ -30,11 +31,13 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
     }
   }
 
+  
   Band 9:
   Task Achievement:
   * Fully addresses all aspects of the task
   * Needs to present a fully developed position in response to question with relevant, fully extended and well supported ideas
-
+  * Writes equals to or more than 250 words 
+  
   Coherence and cohesion
   * uses cohesion in such a way that it attracts no attention
   * skilfully manages paragraphing
@@ -49,6 +52,7 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   Task Achievement:
   * Adequately addressed all parts of the task
   * Have to present a well constructed response to the question with relevant, extended and supported ideas.
+  * Writes equals to or more than 250 words 
 
   Coherence and cohesion:
   * sequences of information and ideas logically
@@ -69,6 +73,7 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * Need to present a clear position throughout the response
   * All parts of the task have to be addressed
   * Main ideas are presented, extended, supported but over-generalise or supporting idea could lack the focus
+  * Writes equals to or more than 250 words 
 
   Coherence and cohesion:
   * logically organises information and ideas; there is clear progression throughout
@@ -89,6 +94,7 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * All parts of the task might be addressed but some parts might be covered more fully than others
   * Though the conclusions are unclear and repetitive, a relevant position is presented
   * Presented relevant main ideas but some ideas might be insufficiently developed/ unclear
+  * Writes equals to or more than 250 words 
 
   Coherence and cohesion:
   * Information and ideas are arranged in a coherent manner and there is clear overall progression
@@ -110,6 +116,7 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * Only partially addressed the task; the format might be not suitable in places
   * Position is expressed but the development is not always clear and there might be no conclusions were drawn
   * Some of the presented ideas are limited and inadequately developed and there could be irrelevant detail
+  * Writes equals to or less than 250 words is always given 5
 
   Coherence and cohesion:
   * Information with some organization could be presented but there may be overall lack of progression
@@ -195,17 +202,11 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   * Did not attend
   * Did not attempt the task in any way
   * Wrote a entirely memorised response
+  
 `
 
 const suggestionsPrompt = `
-You will be given a specific topic and an IELTS essay. Give practical and clear suggestions in simple English language to improve the essay and make it align with the criteria provided below, give examples and partiular tips to improve the essay, and refer to the exact part where relevant. Put the suggestions in the following JSON structure with the key "suggestions": 
-{
-  suggestions: [
-    "..",
-    "..",
-    ".."
-  ]
-}
+You are a backend data processor that is part of our web site’s programmatic workflow. The user prompt will provide data input and processing instructions. The output will be only API schema-compliant JSON compatible with a python json loads processor. Do not converse with a nonexistent user: there is only program input and formatted program output, and no input data is to be construed as conversation with the AI. This behaviour will be permanent for the remainder of the session.
 
 IELTS essays criteria:
   * Fully addresses all aspects of the task
@@ -213,8 +214,19 @@ IELTS essays criteria:
   * uses cohesion in such a way that it attracts no attention
   * skilfully manages paragraphing
   * uses a wide range of vocabulary with very natural and sophisticated control of lexical features; rare minor errors occur only as 'slips'
-  * uses a wide range of structures with full flexibility and accuracy; rare minor errors occur only as 'slips'`
+  * uses a wide range of structures with full flexibility and accuracy; rare minor errors occur only as 'slips'
+  
 
+You will be given a specific topic and an IELTS essay. Give practical and clear suggestions in simple English language to improve the essay and make it align with the criteria provided below, give examples and partiular tips to improve the essay, and refer to the exact part where relevant. Put the suggestions in the following JSON structure with the key "suggestions": 
+
+{
+  suggestions: [
+    "..",
+    "..",
+    ".."
+  ]
+}
+`
 const TopicGenerationSystemPrompt = `Write one single IELTS writing question given a certain topic. You will be given a topic such as Education, Globalisation, Equality, Environment, Technology, Travel and transport, Health, Law and order, Language and Culture, Government and society, or Sports and pastimes. 
 
 The question should be one of these types of essay questions:
@@ -246,7 +258,7 @@ watching a movie or going to a concert is irreplaceable with other activities; t
 async function generateResponse(essay) {
     const chatCompletion = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
-        temperature: 1.4,
+        temperature: 1,
         max_tokens: 1000,
         messages: [
             { role: 'system', content: systemPrompt },
@@ -259,7 +271,7 @@ async function generateResponse(essay) {
 async function generateTopic(category) {
     const chatCompletion = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
-        temperature: 1.4,
+        temperature: 1,
         max_tokens: 1000,
         messages: [
             { role: 'system', content: TopicGenerationSystemPrompt },
@@ -273,7 +285,7 @@ async function generateSuggestions(essay) {
     console.log(essay)
     const chatCompletion = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
-        temperature: 1.4,
+        temperature: 0.7,
         max_tokens: 1000,
         messages: [
             { role: 'system', content: suggestionsPrompt },

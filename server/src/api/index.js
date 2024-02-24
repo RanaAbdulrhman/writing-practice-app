@@ -18,6 +18,16 @@ const allowedOrigins = [
     'https://immersive-writing.vercel.app/',
 ]
 
+function stripTextOutsideObjectBraces(text) {
+    const start = text.indexOf('{')
+    const end = text.lastIndexOf('}')
+    if (start !== -1 && end !== -1 && end > start) {
+        return text.substring(start, end + 1)
+    }
+    text.replace(/\\n/g, ' ') // Remove new line chars
+    return '' // Return an empty string if there are no valid braces
+}
+
 // Endpoint to receive the essay from the frontend
 app.post('/api/submit-essay', (req, res) => {
     const origin = req.headers.origin
@@ -31,7 +41,8 @@ app.post('/api/submit-essay', (req, res) => {
     // Send the essay to the ChatGPT API for analysis
     generateResponse(essay)
         .then(function (response) {
-            res.write(response.content)
+            let objectGenerated = stripTextOutsideObjectBraces(response.content)
+            res.write(objectGenerated)
             res.end()
             console.log(response.content)
         })
@@ -55,7 +66,8 @@ app.post('/api/generate-suggestions', (req, res) => {
     // Send the essay to the ChatGPT API for analysis
     generateSuggestions(essay)
         .then(function (response) {
-            res.write(response.content)
+            let objectGenerated = stripTextOutsideObjectBraces(response.content)
+            res.write(objectGenerated)
             res.end()
             console.log(response.content)
         })
