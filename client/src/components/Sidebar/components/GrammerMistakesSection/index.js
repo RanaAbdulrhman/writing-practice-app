@@ -4,15 +4,19 @@ import style from "./style.module.scss";
 import EmptyState from "components/EmptyState";
 
 export default function GrammerMistakesSection({ grammerMistakesList }) {
+  console.log("grammerMistakesList inside section", grammerMistakesList);
   const CorrectionCardsList =
     grammerMistakesList &&
-    grammerMistakesList.map((item, index) => (
-      <CorrectionCard
-        key={index}
-        sentenceBefore={item?.bad}
-        sentenceAfter={item?.better?.[0]}
-      />
-    ));
+    grammerMistakesList.map((item, index) => {
+      console.log(item, index);
+      return (
+        <CorrectionCard
+          key={index}
+          sentenceBefore={item?.bad}
+          sentenceAfter={item?.better?.[0]}
+        />
+      );
+    });
 
   return (
     <div className="flex flex-col gap-3">
@@ -22,7 +26,6 @@ export default function GrammerMistakesSection({ grammerMistakesList }) {
           {grammerMistakesList && grammerMistakesList?.length} Alerts
         </div>
       </div>
-      {CorrectionCardsList}
       {grammerMistakesList?.length ? (
         CorrectionCardsList
       ) : (

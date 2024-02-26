@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import { ReactComponent as TopicIcon } from "assets/icons/topicIcon.svg";
 import { ReactComponent as CloseSign } from "assets/icons/closeSign.svg";
 import { ReactComponent as CheckIcon } from "assets/icons/check.svg";
-
+import LoadingButton from "components/LoadingButton";
 import { ReactComponent as EducationIcon } from "assets/icons/Education.svg";
 import { ReactComponent as TechnologyIcon } from "assets/icons/Technology.svg";
 import { ReactComponent as HealthIcon } from "assets/icons/Health.svg";
@@ -19,6 +19,7 @@ const TopicModal = ({
   generateTopic,
   openTopicModal,
   setOpenTopicModal,
+  isTopicLoading,
   resetTimer,
 }) => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null);
@@ -95,16 +96,16 @@ const TopicModal = ({
               </p>
             </div>
             <div className={styles.categoriesSection}>{categoryComponents}</div>
-            <button
-              onClick={() => {
+            <LoadingButton
+              onBtnClick={() => {
                 let category = categories[selectedCategoryIndex].name;
                 sessionStorage.setItem("category", category);
                 generateTopic(category);
               }}
-              className={styles.actionButton}
-            >
-              Generate a Topic
-            </button>
+              isLoading={isTopicLoading}
+              className={`${styles.actionButton}`}
+              title="Generate a Topic"
+            />
           </div>
         </div>
       </>

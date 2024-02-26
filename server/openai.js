@@ -255,14 +255,14 @@ their responsibility, is extremely valuable for next generations become better p
 contribution, no one should make billions of dollars that easily, because that imbalance does have a significant negative impact on societies. On the other hand, some people think that entertainers’ contribution to the modern life is worth the money they earn. It can be understood that for many people,
 watching a movie or going to a concert is irreplaceable with other activities; therefore, they think that their positive impact is crucial for a significant proportion of people. In addition to that, celebrities do compromise their privacy and freedom with being known by many others. In exchange of that, they do deserve a comfortable life with significantly better paychecks. In conclusion, despite their minimal contribution with their work to the people and sacrifice from their private life; I believe that their impact is far from being positive and they are not paid fairly or balanced with others.`
 
-async function generateResponse(essay) {
+async function generateResponse(topic, essay) {
     const chatCompletion = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         temperature: 1,
         max_tokens: 1000,
         messages: [
             { role: 'system', content: systemPrompt },
-            { role: 'user', content: essay },
+            { role: 'user', content: `Topic: ${topic} Essay: ${essay}` },
         ],
     })
     return chatCompletion.choices[0].message
@@ -281,7 +281,7 @@ async function generateTopic(category) {
     return chatCompletion.choices[0].message
 }
 
-async function generateSuggestions(essay) {
+async function generateSuggestions(topic, essay) {
     console.log(essay)
     const chatCompletion = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
@@ -289,7 +289,7 @@ async function generateSuggestions(essay) {
         max_tokens: 1000,
         messages: [
             { role: 'system', content: suggestionsPrompt },
-            { role: 'user', content: essay },
+            { role: 'user', content: `Topic: ${topic} Essay: ${essay}` },
         ],
     })
     return chatCompletion.choices[0].message
