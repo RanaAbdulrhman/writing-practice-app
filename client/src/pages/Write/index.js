@@ -52,6 +52,16 @@ export default function Index() {
     window.addEventListener("resize", () => setScreenWidth(window.innerWidth));
   }, []);
 
+  function isValidJSON(object, errorMessage) {
+    try {
+      const obj = JSON.parse(object);
+      console.log(obj); // This should work without throwing an error
+    } catch (e) {
+      console.log(`unable to parse: ${e}`);
+      toast.error(errorMessage, {});
+    }
+  }
+
   async function loadScores() {
     // setLoading(true)
     try {
@@ -63,10 +73,16 @@ export default function Index() {
         }
       );
       const data = await res.data;
-
+      // isValidJSON(
+      //   data,
+      //   "Oops! Something went wrong while evaluating your essay. Please refresh the page and try again."
+      // );
       return data;
     } catch (err) {
-      toast.error(err, {});
+      toast.error(
+        "Something went wrong. Please refresh the page and try again.",
+        {}
+      );
       console.log(err);
     }
     // setLoading(false)
@@ -80,9 +96,16 @@ export default function Index() {
         { topic: topic, essay: essay }
       );
       const data = await res.data;
+      // isValidJSON(
+      //   data,
+      //   "Oops! Something went wrong while crafting suggestions for you. Please refresh the page and try again."
+      // );
       return data;
     } catch (err) {
-      toast.error(err, {});
+      toast.error(
+        "Something went wrong. Please refresh the page and try again.",
+        {}
+      );
       console.log(err);
     }
     // setLoading(false)
@@ -99,7 +122,10 @@ export default function Index() {
       const data = await res.data;
       return data;
     } catch (err) {
-      toast.error(err, {});
+      toast.error(
+        "Something went wrong. Please refresh the page and try again.",
+        {}
+      );
       console.log(err);
     }
   }
@@ -115,7 +141,10 @@ export default function Index() {
       const data = await res.data;
       return data;
     } catch (err) {
-      toast.error(err, {});
+      toast.error(
+        "Something went wrong. Please refresh the page and try again.",
+        {}
+      );
       console.log(err);
     }
   }
@@ -136,9 +165,13 @@ export default function Index() {
       setIsTopicModalOpen(false);
       return data;
     } catch (err) {
-      toast.error(err.message, {});
+      toast.error(
+        "Something went wrong. Please refresh the page and try again.",
+        {}
+      );
       console.log(err.message);
     }
+
     setIsTopicLoading(false);
   }
 
@@ -153,6 +186,10 @@ export default function Index() {
           setIsEvaluate(true);
         })
         .catch((err) => {
+          toast.error(
+            "Something went wrong. Please refresh the page and try again.",
+            {}
+          );
           console.log(err.message);
         });
       extractSpellingMistakes()
@@ -163,7 +200,10 @@ export default function Index() {
           setSpellingMistakesList(spellingMistakes);
         })
         .catch((err) => {
-          toast.error(err.message, {});
+          toast.error(
+            "Something went wrong. Please refresh the page and try again.",
+            {}
+          );
           console.log(err.message);
         });
       extractGrammerMistakes()
@@ -175,7 +215,10 @@ export default function Index() {
           setGrammerMistakesList(grammerMistakes);
         })
         .catch((err) => {
-          toast.error(err.message, {});
+          toast.error(
+            "Something went wrong. Please refresh the page and try again.",
+            {}
+          );
           console.log(err.message);
         });
 
@@ -184,7 +227,10 @@ export default function Index() {
           setSuggestionsList(data?.suggestions);
         })
         .catch((err) => {
-          toast.error(err.message, {});
+          toast.error(
+            "Something went wrong. Please refresh the page and try again.",
+            {}
+          );
           console.log(err);
         });
     }
@@ -235,17 +281,19 @@ export default function Index() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full flex-grow-1 p-10">
+    <div
+      className={`flex flex-col items-center justify-center w-full flex-grow-1`}
+    >
       <div
         className={`flex justify-between ${
-          screenWidth < breakpoint ? "flex-col" : ""
+          screenWidth < breakpoint ? "flex-col-reverse" : ""
         } w-full`}
       >
         <div
-          className={`flex flex-col items-center   ${
+          className={`flex flex-col items-center p-10 ${
             isEvaluate && screenWidth > breakpoint
               ? "relative w-full top-14 gap-5 px-8 xl:w-8/12 sm:w-full"
-              : "w-full"
+              : "w-full gap-5"
           }`}
         >
           <div className="flex w-full justify-end mb-2">

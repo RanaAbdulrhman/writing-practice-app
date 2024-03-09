@@ -41,19 +41,17 @@ export default function RestartSession({ onOptionClick }) {
   return (
     <div className="relative">
       <button
-        className={`relative h-full flex gap-2 items-center w-[100px] ms-3 ${
+        className={`relative h-full flex gap-2 justify-between items-center w-14 ms-3 ${
           style.button
         } ${viewRestartOptions && style.active}`}
         onClick={() => setViewRestartOptions(!viewRestartOptions)}
       >
-        <div>
-          <RestartIcon />
-        </div>
-        <div
+        <RestartIcon />
+        {/* <div
           className={`${viewRestartOptions ? "font-bold" : "font-semibold"}`}
         >
           Restart
-        </div>
+        </div> */}
       </button>
       {viewRestartOptions && <OptionsList />}
     </div>

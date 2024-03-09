@@ -2,13 +2,6 @@ import React, { useEffect } from "react";
 import { OverallScoreCard, DetailedScoreCard } from "./Cards";
 
 export default function OverallScoresSection({ scores }) {
-  console.log("scores inside the section", scores);
-  try {
-    console.log("parsed scores inside the section", JSON.parse(scores));
-  } catch {
-    console.log("unable to parse scores");
-  }
-
   function formatNumberWithDecimalPlaces(number) {
     if (typeof number !== "number" || isNaN(number)) {
       return number;

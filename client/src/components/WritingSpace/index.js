@@ -128,7 +128,7 @@ export default function Index({
             <>
               <textarea
                 color="gray"
-                placeholder="Start writing ..."
+                placeholder="Start writing to begin the timer."
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
@@ -142,7 +142,7 @@ export default function Index({
                 data-gramm="false"
                 ata-gramm_editor="false"
                 data-enable-grammarly="false"
-                className={`font-semibold text-sm rounded-lg start-0 p-4 ${
+                className={`font-semibold text-md rounded-lg start-0 p-4 ${
                   style.textAreaContainer
                 } ${!isTextareaActive && style.clickToActivate}`}
                 onFocus={() => setIsTextareaActive(true)}

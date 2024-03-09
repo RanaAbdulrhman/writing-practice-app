@@ -9,7 +9,7 @@ export default function TopicBar({ topic, isLoading }) {
     <div className="flex gap-2 items-center w-full">
       <Avatar className="w-9" />
       <div
-        className={`font-semibold text-sm rounded-lg px-5 py-5 w-full ${style.shadow}`}
+        className={`font-semibold text-md rounded-lg px-5 py-5 w-full ${style.shadow}`}
       >
         {topic || !isLoading ? (
           topic

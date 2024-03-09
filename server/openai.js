@@ -205,6 +205,33 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
   
 `
 
+const evaluationPrompt = `
+Please evaluate the provided essay based on the following criteria, using the IELTS Score Descriptors as a guide: Task Achievement, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy. Assign a score ranging from 0 to 9 (in 0.5 increments) for each criterion. Your evaluation should consider the nuances and expectations outlined in the IELTS descriptors without adhering too rigidly to them. Present your evaluation in a precise JSON format, ensuring that the structure closely matches the example provided below. Pay special attention to maintaining the integrity of the JSON format, particularly by including all necessary brackets and ensuring that the final brace is not omitted.
+
+Provide the evaluation in the following JSON format:
+
+{
+  "TaskAchievement": {
+    "score": numeric value,
+    "description": "textual feedback specific to Task Achievement"
+  },
+  "CoherenceCohesion": {
+    "score": numeric value,
+    "description": "textual feedback specific to Coherence and Cohesion"
+  },
+  "LexicalResource": {
+    "score": numeric value,
+    "description": "textual feedback specific to Lexical Resource"
+  },
+  "GrammaticalRangeAccuracy": {
+    "score": numeric value,
+    "description": "textual feedback specific to Grammatical Range and Accuracy"
+  }
+}
+
+Ensure that the JSON object is correctly formed, with each criterion evaluated separately. The description should provide specific feedback reflecting the essay's strengths and weaknesses in relation to the IELTS Score Descriptors. Accuracy in replicating the provided structure and completeness in the JSON response are crucial.
+`
+
 const suggestionsPrompt = `
 You are a backend data processor that is part of our web site’s programmatic workflow. The user prompt will provide data input and processing instructions. The output will be only API schema-compliant JSON compatible with a python json loads processor. Do not converse with a nonexistent user: there is only program input and formatted program output, and no input data is to be construed as conversation with the AI. This behaviour will be permanent for the remainder of the session.
 
@@ -227,6 +254,32 @@ You will be given a specific topic and an IELTS essay. Give practical and clear 
   ]
 }
 `
+
+const modifiedSuggestionsPrompt = `
+Given an IELTS essay topic and the text of an essay, generate concise, actionable suggestions to improve the essay based on the following IELTS assessment criteria:
+
+1. Address all aspects of the task comprehensively.
+2. Present a fully developed position in response to the question, with relevant, well-supported ideas.
+3. Use cohesion in such a way that it attracts no attention.
+4. Manage paragraphing skillfully.
+5. Use a wide range of vocabulary with natural and sophisticated control of lexical features; rare minor errors may occur only as 'slips'.
+6. Use a wide range of structures with full flexibility and accuracy; rare minor errors may occur only as 'slips'.
+
+The output should be a JSON object with a "suggestions" key. The value should be a brief narrative containing succinct advice for essay improvement, specifically focusing on quick wins and impactful changes. Reference specific areas for enhancement and offer clear guidance, all within a short paragraph. These suggestions should be continuous and not numbered.
+
+Output format:
+{
+  "suggestions": [
+    "Suggestion 1",
+    "Suggestion 2",
+    "Suggestion 3",
+    ...
+  ]
+}
+
+Remember to process the input data strictly as program input, producing formatted program output in the specified JSON structure without engaging in conversational elements. The aim is to provide clear, practical advice for enhancing the essay's alignment with IELTS scoring criteria.
+`
+
 const TopicGenerationSystemPrompt = `Write one single IELTS writing question given a certain topic. You will be given a topic such as Education, Globalisation, Equality, Environment, Technology, Travel and transport, Health, Law and order, Language and Culture, Government and society, or Sports and pastimes. 
 
 The question should be one of these types of essay questions:
@@ -261,7 +314,7 @@ async function generateResponse(topic, essay) {
         temperature: 1,
         max_tokens: 1000,
         messages: [
-            { role: 'system', content: systemPrompt },
+            { role: 'system', content: evaluationPrompt },
             { role: 'user', content: `Topic: ${topic} Essay: ${essay}` },
         ],
     })
@@ -288,7 +341,7 @@ async function generateSuggestions(topic, essay) {
         temperature: 0.7,
         max_tokens: 1000,
         messages: [
-            { role: 'system', content: suggestionsPrompt },
+            { role: 'system', content: modifiedSuggestionsPrompt },
             { role: 'user', content: `Topic: ${topic} Essay: ${essay}` },
         ],
     })
