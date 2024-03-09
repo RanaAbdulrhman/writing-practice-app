@@ -38,12 +38,28 @@ export default function Index() {
   const [essay, setEssay] = useState(sessionStorage.getItem("essay") || "");
   const [currentAction, setCurrentAction] = useState(null);
   const [isTextareaActive, setIsTextareaActive] = useState(false);
+  const [viewRestartOptions, setViewRestartOptions] = useState(false);
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false });
 
   window.addEventListener("beforeunload", () => {
     sessionStorage.setItem("essay", essay);
   });
+
+  window.onclick = function (e) {
+    // if the restart options modal is open and the user clicked anywhere else on the screen, close the modal
+    if (
+      viewRestartOptions &&
+      !(
+        e.target
+          .closest(".restart-options")
+          ?.className?.includes("restart-options") ||
+        e.target.className?.includes("restart-options")
+      )
+    ) {
+      setViewRestartOptions(false);
+    }
+  };
 
   // The width below which the mobile view should be rendered
   const breakpoint = 1420;
@@ -52,10 +68,9 @@ export default function Index() {
     window.addEventListener("resize", () => setScreenWidth(window.innerWidth));
   }, []);
 
-  function isValidJSON(object, errorMessage) {
+  function isValidJSON(object, key, errorMessage) {
     try {
-      const obj = JSON.parse(object);
-      console.log(obj); // This should work without throwing an error
+      const test = object[key];
     } catch (e) {
       console.log(`unable to parse: ${e}`);
       toast.error(errorMessage, {});
@@ -73,10 +88,11 @@ export default function Index() {
         }
       );
       const data = await res.data;
-      // isValidJSON(
-      //   data,
-      //   "Oops! Something went wrong while evaluating your essay. Please refresh the page and try again."
-      // );
+      isValidJSON(
+        "data",
+        "TaskAchievement",
+        "Oops! Something went wrong while evaluating your essay. Please refresh the page and try again."
+      );
       return data;
     } catch (err) {
       toast.error(
@@ -96,10 +112,11 @@ export default function Index() {
         { topic: topic, essay: essay }
       );
       const data = await res.data;
-      // isValidJSON(
-      //   data,
-      //   "Oops! Something went wrong while crafting suggestions for you. Please refresh the page and try again."
-      // );
+      isValidJSON(
+        data,
+        "suggestions",
+        "Oops! Something went wrong while crafting suggestions for you. Please refresh the page and try again."
+      );
       return data;
     } catch (err) {
       toast.error(
@@ -247,10 +264,14 @@ export default function Index() {
 
   function changeCategory() {
     setIsTopicModalOpen(true);
+    sessionStorage.removeItem("category");
+    sessionStorage.removeItem("topic");
+    resetTimer();
   }
 
   const openConfirmationModal = (actionType) => {
     setCurrentAction(actionType);
+    setViewRestartOptions(false);
     setIsConfirmationModalOpen(true);
   };
 
@@ -259,6 +280,7 @@ export default function Index() {
   };
 
   const performRestartAction = () => {
+    setViewRestartOptions(false);
     switch (currentAction) {
       case ActionTypes.RESTART_TIMER:
         resetTimer();
@@ -307,6 +329,8 @@ export default function Index() {
             />
             {!isEvaluate && (
               <RestartSession
+                viewRestartOptions={viewRestartOptions}
+                setViewRestartOptions={setViewRestartOptions}
                 onOptionClick={
                   essay
                     ? openConfirmationModal

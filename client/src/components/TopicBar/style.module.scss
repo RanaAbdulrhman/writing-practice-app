@@ -2,4 +2,8 @@
   box-shadow: 14px 14px 40px 0px rgba(112, 144, 176, 0.2);
   text-align: start;
   font-size: 0.9rem;
+
+  @media (max-width: 1420px) {
+    font-size: 1.3rem;
+  }
 }

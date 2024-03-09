@@ -91,8 +91,7 @@ const TopicModal = ({
             <div className={styles.modalContent}>
               <h5 className={styles.heading}>Choose a Topic Category</h5>
               <p className={styles.modalDesc}>
-                Select the topic category that interests you the most, and we'll
-                generate a relevant writing topic for you.
+                Select the category that interests you the most!
               </p>
             </div>
             <div className={styles.categoriesSection}>{categoryComponents}</div>

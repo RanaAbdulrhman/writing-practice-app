@@ -5,9 +5,11 @@ import { ReactComponent as RestartTimer } from "assets/icons/restartTimer.svg";
 import { ReactComponent as SwitchTopic } from "assets/icons/switchTopic.svg";
 import { ReactComponent as ChangeCategory } from "assets/icons/changeCategory.svg";
 import { ActionTypes } from "utils/constants";
-export default function RestartSession({ onOptionClick }) {
-  const [viewRestartOptions, setViewRestartOptions] = useState(false);
-
+export default function RestartSession({
+  viewRestartOptions,
+  setViewRestartOptions,
+  onOptionClick,
+}) {
   const OptionsList = () => (
     <div
       className={`absolute top-[40px] right-0 flex flex-col gap-2 items-center w-[250px] ${style.listBackground}`}
@@ -39,7 +41,7 @@ export default function RestartSession({ onOptionClick }) {
   );
 
   return (
-    <div className="relative">
+    <div className="relative restart-options">
       <button
         className={`relative h-full flex gap-2 justify-between items-center w-14 ms-3 ${
           style.button

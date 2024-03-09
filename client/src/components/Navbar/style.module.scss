@@ -1,3 +1,8 @@
-.font {
-  font-size: 17px;
+.navbar {
+  @media (max-width: 1420px) {
+    justify-content: center;
+  }
+  .font {
+    font-size: 17px;
+  }
 }

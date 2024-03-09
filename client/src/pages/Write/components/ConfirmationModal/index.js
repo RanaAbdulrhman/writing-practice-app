@@ -29,7 +29,7 @@ export default function ConfirmationModal({ onConfirmation, closeModal }) {
               Resetting the timer will delete your current progress on writing
               the essay.
             </div>
-            <div className="flex gap-3 mt-3">
+            <div className="flex gap-3 w-full mt-3 px-4">
               <button
                 className={`${style.btn} ${style.yesBtn}`}
                 onClick={onConfirmation}

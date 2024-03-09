@@ -38,6 +38,9 @@
       background: white;
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
+      @media (max-height: 620px) {
+        margin-bottom: 10px;
+      }
 
       .modalIcon {
         border-radius: 10px;
@@ -97,7 +100,7 @@
       flex-direction: column;
       gap: 10px;
       justify-content: space-between;
-      max-height: 50vh; /* Set a maximum height for the modal, adjust as needed */
+      max-height: 45vh; /* Set a maximum height for the modal, adjust as needed */
       overflow-y: auto;
 
       .categoryBox {
