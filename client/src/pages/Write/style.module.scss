@@ -1,20 +1,35 @@
 .button {
-    border-radius: 45px;
-    background: linear-gradient(
-        15deg,
-        #2e00ea 26.3%,
-        #2e00ea 26.31%,
-        #2263fe 86.4%
-    );
-    box-shadow: 0px 21px 27px -19px rgba(0, 75, 255, 0.82);
-    color: #fff;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 18px; /* 114.286% */
-    display: flex;
-    height: 48px;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
+  border-radius: 45px;
+  background: linear-gradient(
+    15deg,
+    #2e00ea 26.3%,
+    #2e00ea 26.31%,
+    #2263fe 86.4%
+  );
+  box-shadow: 0px 21px 27px -19px rgba(0, 75, 255, 0.82);
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px; /* 114.286% */
+  display: flex;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+.backButton {
+  border-radius: 6px;
+  background-color: #c0c0c0;
+  color: white;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  &.mobile {
+    background-color: #c9c9c9;
+  }
 }

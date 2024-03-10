@@ -208,7 +208,12 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
 const evaluationPrompt = `
 Please evaluate the provided essay based on the following criteria, using the IELTS Score Descriptors as a guide: Task Achievement, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy. Assign a score ranging from 0 to 9 (in 0.5 increments) for each criterion. Your evaluation should consider the nuances and expectations outlined in the IELTS descriptors without adhering too rigidly to them. Present your evaluation in a precise JSON format, ensuring that the structure closely matches the example provided below. Pay special attention to maintaining the integrity of the JSON format, particularly by including all necessary brackets and ensuring that the final brace is not omitted.
 
-Provide the evaluation in the following JSON format:
+Key Considerations:
+
+Word Count and Scoring: The essay must meet a minimum word count of 250 words. If the essay is shorter than this minimum, the scores should be adjusted downward proportionally to the word count deficit. This adjustment should reflect the extent to which the essay falls short of the word requirement, acknowledging that a significant shortfall indicates a failure to fully address the task.
+Relevance: Assess whether the essay directly addresses the given topic. Irrelevant responses should score extremely low.
+Format Requirements: Present your evaluation in the specified JSON format, carefully ensuring all parts of the structure are included, particularly the closing brace.
+JSON Response Format:
 
 {
   "TaskAchievement": {
@@ -229,7 +234,7 @@ Provide the evaluation in the following JSON format:
   }
 }
 
-Ensure that the JSON object is correctly formed, with each criterion evaluated separately. The description should provide specific feedback reflecting the essay's strengths and weaknesses in relation to the IELTS Score Descriptors. Accuracy in replicating the provided structure and completeness in the JSON response are crucial.
+Ensure that the JSON object is correctly formed, with each criterion evaluated separately. The description should provide specific feedback reflecting the essay's strengths and weaknesses in relation to the IELTS Score Descriptors, including the completeness of the response, is essential. Accuracy in replicating the provided structure and completeness in the JSON response are crucial.
 `
 
 const suggestionsPrompt = `

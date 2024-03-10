@@ -49,11 +49,6 @@ export default function RestartSession({
         onClick={() => setViewRestartOptions(!viewRestartOptions)}
       >
         <RestartIcon />
-        {/* <div
-          className={`${viewRestartOptions ? "font-bold" : "font-semibold"}`}
-        >
-          Restart
-        </div> */}
       </button>
       {viewRestartOptions && <OptionsList />}
     </div>

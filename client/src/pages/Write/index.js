@@ -3,6 +3,7 @@ import TopicBar from "components/TopicBar";
 import WritingSpace from "components/WritingSpace";
 import Sidebar from "components/Sidebar";
 import LoadingButton from "components/LoadingButton";
+import { ReactComponent as BackButton } from "assets/icons/back-button.svg";
 
 import axios from "axios";
 import Timer from "./components/Timer";
@@ -318,26 +319,46 @@ export default function Index() {
               : "w-full gap-5"
           }`}
         >
-          <div className="flex w-full justify-end mb-2">
-            <Timer
-              seconds={seconds}
-              minutes={minutes}
-              hours={hours}
-              start={start}
-              pause={pause}
-              isActive={isTextareaActive}
-            />
-            {!isEvaluate && (
-              <RestartSession
-                viewRestartOptions={viewRestartOptions}
-                setViewRestartOptions={setViewRestartOptions}
-                onOptionClick={
-                  essay
-                    ? openConfirmationModal
-                    : performActionWithoutConfirmation
-                }
-              />
+          <div className="flex w-full justify-between mb-2">
+            {isEvaluate && screenWidth > breakpoint ? (
+              <button
+                className={`flex h-100 gap-2 justify-between items-center px-4 ${style.backButton}`}
+                onClick={() => {
+                  setScores(null);
+                  setSuggestionsList(false);
+                  setGrammerMistakesList(false);
+                  setSpellingMistakesList(false);
+                  setActiveTab(0);
+                  setIsEvaluate(false);
+                }}
+              >
+                <BackButton />
+                Back
+              </button>
+            ) : (
+              <div></div>
             )}
+            <div className="flex">
+              <Timer
+                seconds={seconds}
+                minutes={minutes}
+                hours={hours}
+                start={start}
+                pause={pause}
+                isActive={isTextareaActive}
+              />
+              {!isEvaluate && (
+                <RestartSession
+                  viewRestartOptions={viewRestartOptions}
+                  setViewRestartOptions={setViewRestartOptions}
+                  onOptionClick={
+                    essay
+                      ? openConfirmationModal
+                      : performActionWithoutConfirmation
+                  }
+                />
+              )}
+            </div>
           </div>
 
           <TopicBar topic={topic} isLoading={isTopicLoading} />
@@ -400,8 +421,28 @@ export default function Index() {
 
         {isEvaluate && (
           <div
-            className={`${screenWidth > breakpoint ? "xl:w-1/4" : "w-full"} `}
+            className={`flex flex-col ${
+              screenWidth > breakpoint ? "xl:w-1/4" : "w-full"
+            } `}
           >
+            {screenWidth <= breakpoint && (
+              <div className="flex justify-start m-5">
+                <button
+                  className={`flex py-2 gap-2 justify-between items-center px-4 ${style.backButton} ${style.mobile}`}
+                  onClick={() => {
+                    setScores(null);
+                    setSuggestionsList(false);
+                    setGrammerMistakesList(false);
+                    setSpellingMistakesList(false);
+                    setActiveTab(0);
+                    setIsEvaluate(false);
+                  }}
+                >
+                  <BackButton />
+                  Back
+                </button>
+              </div>
+            )}
             <Sidebar
               scores={scores}
               spellingMistakesList={spellingMistakesList}

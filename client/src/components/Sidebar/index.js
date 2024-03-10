@@ -69,7 +69,7 @@ export default function Sidebar({
       className={`${style.sideItem} ${
         activeTab === index &&
         (screenWidth < breakpoint ? style.mobileActive : style.desktopActive)
-      }`}
+      } ${screenWidth < breakpoint ? style.mobile : style.desktop}`}
       onClick={() => setActiveTab(index)}
     >
       {tab.icon}
@@ -79,7 +79,7 @@ export default function Sidebar({
 
   return screenWidth < breakpoint ? (
     <div
-      className={`min-h-screen px-10 bg-white ${style.sidebarContainer} transition-transform `}
+      className={`min-h-screen px-10 pb-16 bg-white ${style.sidebarContainer} transition-transform `}
     >
       <ul className="flex justify-center my-12">{tabComponents}</ul>
       <div className="ps-5">

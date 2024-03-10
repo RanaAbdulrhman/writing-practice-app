@@ -1,52 +1,60 @@
 .sidebarContainer {
-    box-shadow: 14px 14px 40px 0px rgba(30, 38, 47, 0.13);
-    line-height: 15px;
-    * {
-        user-select: none;
-        -webkit-user-select: none;
-        /*Safari*/
-        -moz-user-select: none;
-        /*Firefox*/
+  box-shadow: 14px 14px 40px 0px rgba(30, 38, 47, 0.13);
+  line-height: 15px;
+  * {
+    user-select: none;
+    -webkit-user-select: none;
+    /*Safari*/
+    -moz-user-select: none;
+    /*Firefox*/
+  }
+  overflow: hidden;
+
+  .sideItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #2263fe;
+    max-height: 90px;
+    max-width: 120px;
+    min-height: 80px;
+    border-radius: 17px;
+    padding-right: 18px;
+    padding-left: 10px;
+    z-index: 10;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: 100ms;
+
+    &.desktop {
+      border-radius: 17px 0 0 17px;
+    }
+    &.mobile {
+      border-radius: 0 0 17px 17px;
     }
 
-    .sideItem {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: #2263fe;
-        max-height: 90px;
-        max-width: 120px;
-        min-height: 80px;
-        border-radius: 17.662px;
-        padding-right: 18px;
-        padding-left: 10px;
-        z-index: 10;
-        color: white;
-        text-align: center;
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 600;
-
-        cursor: pointer;
-        transition: 100ms;
-
-        &.desktopActive {
-            background-color: #183a8a;
-            position: relative;
-            right: 5px;
-        }
-        &.mobileActive {
-            background-color: #183a8a;
-            position: relative;
-            top: 5px;
-        }
+    &.desktopActive {
+      background-color: #183a8a;
+      position: relative;
+      right: 5px;
     }
+    &.mobileActive {
+      background-color: #183a8a;
+      position: relative;
+      top: 5px;
+    }
+  }
 }
 
 .dot {
-    width: 5px;
-    height: 5px;
-    flex-shrink: 0;
-    border-radius: 100px;
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  border-radius: 100px;
 }
