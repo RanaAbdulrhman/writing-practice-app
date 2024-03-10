@@ -19,10 +19,10 @@ async function extractSpellingMistakes(essay) {
 
     try {
         const response = await axios.request(options)
-        console.log(
-            'response?.data?.response?.errors',
-            response?.data?.response?.errors
-        )
+        // console.log(
+        //     'response?.data?.response?.errors',
+        //     response?.data?.response?.errors
+        // )
         return JSON.stringify(response?.data?.response?.errors)
     } catch (error) {
         console.error(error)
@@ -47,10 +47,10 @@ async function extractGrammarMistakes(essay) {
 
     try {
         const response = await axios.request(options)
-        console.log(
-            'response?.data?.response?.errors',
-            response?.data?.response?.errors
-        )
+        // console.log(
+        //     'response?.data?.response?.errors',
+        //     response?.data?.response?.errors
+        // )
         return JSON.stringify(response?.data?.response?.errors)
     } catch (error) {
         console.error(error)

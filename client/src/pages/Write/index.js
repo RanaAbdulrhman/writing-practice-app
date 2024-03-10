@@ -255,14 +255,15 @@ export default function Index() {
   }
 
   function generateNewTopic() {
+    sessionStorage.removeItem("topic");
     generateTopic(sessionStorage.getItem("category"));
     resetTimer();
   }
 
   function changeCategory() {
-    setIsTopicModalOpen(true);
     sessionStorage.removeItem("category");
     sessionStorage.removeItem("topic");
+    setIsTopicModalOpen(true);
     resetTimer();
   }
 
@@ -321,9 +322,9 @@ export default function Index() {
                 className={`flex h-100 gap-2 justify-between items-center px-4 ${style.backButton}`}
                 onClick={() => {
                   setScores(null);
-                  setSuggestionsList(false);
-                  setGrammerMistakesList(false);
-                  setSpellingMistakesList(false);
+                  setSuggestionsList(null);
+                  setGrammerMistakesList(null);
+                  setSpellingMistakesList(null);
                   setActiveTab(0);
                   setIsEvaluate(false);
                 }}

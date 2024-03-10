@@ -36,20 +36,18 @@ function stripTextOutsideObjectBraces(text) {
 // Endpoint to receive the essay from the frontend
 app.post('/api/submit-essay', (req, res) => {
     const origin = req.headers.origin
-    console.log(origin)
     if (allowedOrigins.includes(origin)) {
         // Set the Access-Control-Allow-Origin header for allowed origins
         res.setHeader('Access-Control-Allow-Origin', origin)
     }
     const { topic, essay } = req.body
-    console.log('req.body', req.body)
     // Send the essay to the ChatGPT API for analysis
     generateResponse(topic, essay)
         .then(function (response) {
             let objectGenerated = stripTextOutsideObjectBraces(response.content)
             res.write(objectGenerated)
             res.end()
-            console.log(response.content)
+            // console.log(response.content)
         })
         .catch(function (error) {
             // Check if the error has a specific property indicating a user-friendly message
@@ -73,7 +71,7 @@ app.post('/api/generate-suggestions', (req, res) => {
             let objectGenerated = stripTextOutsideObjectBraces(response.content)
             res.write(objectGenerated)
             res.end()
-            console.log(response.content)
+            // console.log(response.content)
         })
         .catch(function (error) {
             // Check if the error has a specific property indicating a user-friendly message
@@ -97,7 +95,7 @@ app.post('/api/generate-topic', (req, res) => {
         .then(function (response) {
             res.write(response.content || 'not loaded')
             res.end()
-            console.log(response.content)
+            // console.log(response.content)
         })
         .catch(function (error) {
             const errorMessage = error.error || 'An unexpected error occurred.'
@@ -109,7 +107,6 @@ app.post('/api/generate-topic', (req, res) => {
 
 app.post('/api/extract-spelling-mistakes', (req, res) => {
     const origin = req.headers.origin
-    console.log(origin)
     if (allowedOrigins.includes(origin)) {
         // Set the Access-Control-Allow-Origin header for allowed origins
         res.setHeader('Access-Control-Allow-Origin', origin)
@@ -120,7 +117,6 @@ app.post('/api/extract-spelling-mistakes', (req, res) => {
         .then(function (response) {
             res.write(response || 'not loaded')
             res.end()
-            console.log(response)
         })
         .catch(function (error) {
             const errorMessage = error.error || 'An unexpected error occurred.'
@@ -132,7 +128,6 @@ app.post('/api/extract-spelling-mistakes', (req, res) => {
 
 app.post('/api/extract-grammar-mistakes', (req, res) => {
     const origin = req.headers.origin
-    console.log(origin)
     if (allowedOrigins.includes(origin)) {
         // Set the Access-Control-Allow-Origin header for allowed origins
         res.setHeader('Access-Control-Allow-Origin', origin)
@@ -143,7 +138,7 @@ app.post('/api/extract-grammar-mistakes', (req, res) => {
         .then(function (response) {
             res.write(response || 'not loaded')
             res.end()
-            console.log(response)
+            // console.log(response)
         })
         .catch(function (error) {
             const errorMessage = error.error || 'An unexpected error occurred.'

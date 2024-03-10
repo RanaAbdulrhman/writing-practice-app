@@ -11,7 +11,7 @@ export default function TopicBar({ topic, isLoading }) {
       <div
         className={`font-semibold rounded-lg px-5 py-5 w-full ${style.shadow}`}
       >
-        {topic || !isLoading ? (
+        {!isLoading ? (
           topic
         ) : (
           <div className="flex flex-col z-0 relative">
