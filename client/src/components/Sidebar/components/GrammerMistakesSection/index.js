@@ -4,11 +4,9 @@ import style from "./style.module.scss";
 import EmptyState from "components/EmptyState";
 
 export default function GrammerMistakesSection({ grammerMistakesList }) {
-  console.log("grammerMistakesList inside section", grammerMistakesList);
   const CorrectionCardsList =
     grammerMistakesList &&
     grammerMistakesList.map((item, index) => {
-      console.log(item, index);
       return (
         <CorrectionCard
           key={index}
