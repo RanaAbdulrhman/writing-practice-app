@@ -11,7 +11,6 @@ import {
   HintsAndSuggestionsSection,
 } from "./components";
 import LoadingSkeleton from "./components/LoadingSkeleton";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Sidebar({
@@ -81,6 +80,7 @@ export default function Sidebar({
     <div
       className={`min-h-screen px-10 pb-16 bg-white ${style.sidebarContainer} transition-transform `}
     >
+      <div className="text-3xl font-bold mb-2">Your Feedback</div>
       <ul className="flex justify-center my-12">{tabComponents}</ul>
       <div className="ps-5">
         {tabs[activeTab].loaded ? tabs[activeTab].content : <LoadingSkeleton />}
