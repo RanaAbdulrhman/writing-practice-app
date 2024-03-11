@@ -4,6 +4,7 @@ import { ReactComponent as Logo } from "assets/logos/AppLogo.svg";
 import { ReactComponent as RightArrow } from "assets/icons/toRightArrow.svg";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Footer from "components/Footer";
 
 import { ReactComponent as WritingPage } from "assets/landingPageAssets/writingPage.svg";
 import { ReactComponent as LogicalFlowCard } from "assets/landingPageAssets/logicalFlow.svg";
@@ -15,7 +16,6 @@ import { ReactComponent as SpellingGrammerFeature } from "assets/landingPageAsse
 import { ReactComponent as ImprovementSuggestionsFeature } from "assets/landingPageAssets/ImprovementSuggestionsFeature.svg";
 import { ReactComponent as WritingWorkplace } from "assets/landingPageAssets/writingWorkplace.svg";
 import { ReactComponent as CTABackground } from "assets/landingPageAssets/CTASection.svg";
-import { ReactComponent as MessageIcon } from "assets/landingPageAssets/Message_light.svg";
 import { ChevronRight } from "lucide-react";
 
 export default function MainPage() {
@@ -55,18 +55,6 @@ export default function MainPage() {
     start: { opacity: 0, x: 50 },
     while: { opacity: 1, x: 0, transition: { duration: 0.65 } },
   };
-
-  const FooterSection = () => (
-    <div className=" bg-black py-3 flex flex-col items-center text-white ">
-      <div className="font-semibold flex gap-1 items-center">
-        <div className="w-7">
-          <MessageIcon />
-        </div>
-        <div>Contact the Developer</div>
-      </div>
-      <div className="font-thin">RanaAbdulrhmanD@gmail.com</div>
-    </div>
-  );
 
   const FourthSection = () => (
     <div className={`flex w-full justify-center ${style.fourthSection}`}>
@@ -348,7 +336,7 @@ export default function MainPage() {
       <SecondSection />
       <ThirdSection />
       <FourthSection />
-      <FooterSection />
+      <Footer />
     </motion.div>
   );
 }
