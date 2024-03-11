@@ -104,7 +104,7 @@ export default function Index({
         <div className="w-full flex flex-col justify-around gap-3">
           {isEvaluate ? (
             <div
-              className={`font-semibold text-sm rounded-lg start-0 p-4 ${style.textAreaContainer}`}
+              className={`font-semibold text-sm rounded-lg start-0 p-4 ${style.textAreaContainer} ${style.uneditable}`}
             >
               {activeTab === 1
                 ? spellingMistakesList && (

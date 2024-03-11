@@ -1,7 +1,12 @@
 .textAreaContainer {
   font-size: 0.9rem;
+  line-height: 1.25rem;
   @media (max-width: 1420px) {
     font-size: 1.3rem;
+    line-height: 1.7rem;
+  }
+  &.uneditable {
+    background-color: rgb(245, 245, 245);
   }
   border: 1px solid var(--stroke, #e2e8f0);
   &:focus {

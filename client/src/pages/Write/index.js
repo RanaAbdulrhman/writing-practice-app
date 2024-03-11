@@ -24,7 +24,7 @@ export default function Index() {
   const [topic, setTopic] = useState(sessionStorage.getItem("topic"));
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isEvaluate, setIsEvaluate] = useState(
-    sessionStorage.getItem("isEvaluate")
+    stringToBoolean(sessionStorage.getItem("isEvaluate"))
   );
   const [isTopicModalOpen, setIsTopicModalOpen] = useState(
     !sessionStorage.getItem("category") || !sessionStorage.getItem("topic")
@@ -52,6 +52,12 @@ export default function Index() {
   const [viewRestartOptions, setViewRestartOptions] = useState(false);
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false });
+  console.log(
+    "with !!, in sessionStorage",
+    typeof !!sessionStorage.getItem("isEvaluate"),
+    !!sessionStorage.getItem("isEvaluate")
+  );
+  console.log("no !!, in state", isEvaluate);
 
   window.addEventListener("beforeunload", () => {
     sessionStorage.setItem("essay", essay);
@@ -90,6 +96,11 @@ export default function Index() {
     window.addEventListener("resize", () => setScreenWidth(window.innerWidth));
   }, []);
 
+  function stringToBoolean(string) {
+    if (String(string).toLowerCase() === "true") {
+      return true;
+    } else return false;
+  }
   function isValidJSON(object, key, errorMessage) {
     try {
       const test = object[key];
@@ -334,8 +345,8 @@ export default function Index() {
         <div
           className={`flex flex-col items-center p-10 ${
             isEvaluate && screenWidth > breakpoint
-              ? "relative w-full top-14 gap-5 px-8 xl:w-8/12 sm:w-full"
-              : "w-full gap-5"
+              ? "relative w-full top-14 gap-4 px-8 xl:w-8/12 sm:w-full"
+              : "w-full gap-4"
           }`}
         >
           <div className="flex w-full justify-between mb-2">
