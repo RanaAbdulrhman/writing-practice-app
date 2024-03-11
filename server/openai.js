@@ -210,7 +210,7 @@ Please evaluate the provided essay based on the following criteria, using the IE
 
 Key Considerations:
 
-Word Count and Scoring: The essay must meet a minimum word count of 250 words. If the essay is shorter than this minimum, the scores should be adjusted downward proportionally to the word count deficit. This adjustment should reflect the extent to which the essay falls short of the word requirement, acknowledging that a significant shortfall indicates a failure to fully address the task.
+Word Count: The essay must meet a minimum word count of 250 words. If the essay is shorter than this minimum, the scores should be adjusted downward proportionally to the word count deficit. This adjustment should reflect the extent to which the essay falls short of the word requirement. The essay must be at least 200 words to be considered above Band 3. Essays below this threshold should receive a low score.
 Relevance: Assess whether the essay directly addresses the given topic. Irrelevant responses should score extremely low.
 Format Requirements: Present your evaluation in the specified JSON format, carefully ensuring all parts of the structure are included, particularly the closing brace.
 JSON Response Format:
