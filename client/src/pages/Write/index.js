@@ -23,7 +23,9 @@ export default function Index() {
 
   const [topic, setTopic] = useState(sessionStorage.getItem("topic"));
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [isEvaluate, setIsEvaluate] = useState(false);
+  const [isEvaluate, setIsEvaluate] = useState(
+    sessionStorage.getItem("isEvaluate")
+  );
   const [isTopicModalOpen, setIsTopicModalOpen] = useState(
     !sessionStorage.getItem("category") || !sessionStorage.getItem("topic")
   );
@@ -32,10 +34,18 @@ export default function Index() {
 
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
-  const [spellingMistakesList, setSpellingMistakesList] = useState(null);
-  const [grammerMistakesList, setGrammerMistakesList] = useState(null);
-  const [suggestionsList, setSuggestionsList] = useState(null);
-  const [scores, setScores] = useState();
+  const [spellingMistakesList, setSpellingMistakesList] = useState(
+    JSON.parse(sessionStorage.getItem("spellingMistakesList")) || null
+  );
+  const [grammerMistakesList, setGrammerMistakesList] = useState(
+    JSON.parse(sessionStorage.getItem("grammerMistakesList")) || null
+  );
+  const [suggestionsList, setSuggestionsList] = useState(
+    JSON.parse(sessionStorage.getItem("suggestionsList")) || null
+  );
+  const [scores, setScores] = useState(
+    JSON.parse(sessionStorage.getItem("scores")) || null
+  );
   const [essay, setEssay] = useState(sessionStorage.getItem("essay") || "");
   const [currentAction, setCurrentAction] = useState(null);
   const [isTextareaActive, setIsTextareaActive] = useState(false);
@@ -45,6 +55,17 @@ export default function Index() {
 
   window.addEventListener("beforeunload", () => {
     sessionStorage.setItem("essay", essay);
+    sessionStorage.setItem("isEvaluate", isEvaluate);
+    sessionStorage.setItem(
+      "grammerMistakesList",
+      JSON.stringify(grammerMistakesList)
+    );
+    sessionStorage.setItem(
+      "spellingMistakesList",
+      JSON.stringify(spellingMistakesList)
+    );
+    sessionStorage.setItem("suggestionsList", JSON.stringify(suggestionsList));
+    sessionStorage.setItem("scores", JSON.stringify(scores));
   });
 
   window.onclick = function (e) {
@@ -225,7 +246,6 @@ export default function Index() {
           const grammerMistakes = data.filter(
             (item) => item.type === "grammar"
           );
-          console.log("gammar mistakes", grammerMistakes);
           setGrammerMistakesList(grammerMistakes);
         })
         .catch((err) => {
@@ -255,12 +275,13 @@ export default function Index() {
   }
 
   function generateNewTopic() {
-    sessionStorage.removeItem("topic");
+    setTopic(null);
     generateTopic(sessionStorage.getItem("category"));
     resetTimer();
   }
 
   function changeCategory() {
+    setTopic(null);
     sessionStorage.removeItem("category");
     sessionStorage.removeItem("topic");
     setIsTopicModalOpen(true);
@@ -277,7 +298,8 @@ export default function Index() {
     setIsConfirmationModalOpen(false);
   };
 
-  const performRestartAction = () => {
+  const performRestartAction = (currentAction) => {
+    console.log("currentAction", currentAction);
     setViewRestartOptions(false);
     switch (currentAction) {
       case ActionTypes.RESTART_TIMER:
@@ -297,7 +319,7 @@ export default function Index() {
   };
   function performActionWithoutConfirmation(actionType) {
     setCurrentAction(actionType);
-    performRestartAction();
+    performRestartAction(actionType);
   }
 
   return (
@@ -373,7 +395,7 @@ export default function Index() {
           <div className="flex gap-2 justify-between w-full">
             <div className="w-9"></div>
             <div className="flex items-center justify-end w-full mt-4">
-              {isEvaluate || (
+              {!isEvaluate && (
                 <LoadingButton
                   onBtnClick={() => {
                     handleEvaluateBtnClick();

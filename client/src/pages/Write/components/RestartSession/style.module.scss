@@ -1,6 +1,6 @@
 .button {
   border-radius: 6px;
-  background-color: #ff6b6b;
+  background-color: #ffae2c;
   color: white;
   font-size: 14px;
   font-style: normal;
@@ -10,10 +10,10 @@
   align-items: center;
 
   &:hover {
-    background-color: #df5353;
+    background-color: #f1a427;
   }
   &.active {
-    background-color: #c83939;
+    background-color: rgb(245, 165, 35);
   }
 }
 
