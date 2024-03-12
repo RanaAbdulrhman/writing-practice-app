@@ -50,6 +50,7 @@ export default function Index() {
   const [currentAction, setCurrentAction] = useState(null);
   const [isTextareaActive, setIsTextareaActive] = useState(false);
   const [viewRestartOptions, setViewRestartOptions] = useState(false);
+  const [wordCount, setWordCount] = useState(0);
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false });
   console.log(
@@ -117,6 +118,7 @@ export default function Index() {
         {
           topic: topic,
           essay: essay,
+          numberOfWords: wordCount,
         }
       );
       const data = await res.data;
@@ -340,14 +342,14 @@ export default function Index() {
       <div
         className={`flex justify-between ${
           screenWidth < breakpoint ? "flex-col-reverse" : ""
-        } w-full`}
+        } ${!isEvaluate && "py-8"} w-full`}
       >
         <div
-          className={`flex flex-col items-center p-10 ${
+          className={`flex flex-col items-center px-10 ${
             isEvaluate && screenWidth > breakpoint
-              ? "relative w-full top-14 gap-4 px-8 xl:w-8/12 sm:w-full"
+              ? "relative w-full top-14 gap-4 xl:w-8/12 sm:w-full"
               : "w-full gap-4"
-          }`}
+          } ${isEvaluate && screenWidth < breakpoint && "py-12"}`}
         >
           <div className="flex w-full justify-between mb-2">
             {isEvaluate && screenWidth > breakpoint ? (
@@ -402,10 +404,12 @@ export default function Index() {
             setIsTextareaActive={setIsTextareaActive}
             essay={essay}
             setEssay={setEssay}
+            wordCount={wordCount}
+            setWordCount={setWordCount}
           />
           <div className="flex gap-2 justify-between w-full">
             <div className="w-9"></div>
-            <div className="flex items-center justify-end w-full mt-4">
+            <div className="flex items-center justify-end w-full">
               {!isEvaluate && (
                 <LoadingButton
                   onBtnClick={() => {

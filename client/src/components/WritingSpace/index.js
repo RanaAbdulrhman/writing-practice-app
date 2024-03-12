@@ -12,9 +12,9 @@ export default function Index({
   setIsTextareaActive,
   essay,
   setEssay,
+  wordCount,
+  setWordCount,
 }) {
-  const [wordCount, setWordCount] = useState(0);
-
   let textChangeHandler = (e) => {
     setEssay(e.target.value);
   };

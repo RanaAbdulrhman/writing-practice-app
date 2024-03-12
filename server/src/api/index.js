@@ -40,9 +40,9 @@ app.post('/api/submit-essay', (req, res) => {
         // Set the Access-Control-Allow-Origin header for allowed origins
         res.setHeader('Access-Control-Allow-Origin', origin)
     }
-    const { topic, essay } = req.body
+    const { topic, essay, numberOfWords } = req.body
     // Send the essay to the ChatGPT API for analysis
-    generateResponse(topic, essay)
+    generateResponse(topic, essay, numberOfWords)
         .then(function (response) {
             let objectGenerated = stripTextOutsideObjectBraces(response.content)
             res.write(objectGenerated)

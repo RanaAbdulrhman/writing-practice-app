@@ -206,11 +206,11 @@ const systemPrompt = `Give an approximate score for each criterion (Task Achieve
 `
 
 const evaluationPrompt = `
-Please evaluate the provided essay based on the following criteria, using the IELTS Score Descriptors as a guide: Task Achievement, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy. Assign a score ranging from 0 to 9 (in 0.5 increments) for each criterion. Your evaluation should consider the nuances and expectations outlined in the IELTS descriptors without adhering too rigidly to them. Present your evaluation in a precise JSON format, ensuring that the structure closely matches the example provided below. Pay special attention to maintaining the integrity of the JSON format, particularly by including all necessary brackets and ensuring that the final brace is not omitted.
+Please evaluate the provided essay based on the length of the essay meeting a minimum of 250 words, in addition to the following criteria, using the IELTS Score Descriptors as a guide: Task Achievement, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy. Assign a score ranging from 0 to 9 (in 0.5 increments) for each criterion. Your evaluation should consider the nuances and expectations outlined in the IELTS descriptors. Present your evaluation in a precise JSON format, ensuring that the structure closely matches the example provided below. Pay special attention to maintaining the integrity of the JSON format, particularly by including all necessary brackets and ensuring that the final brace is not omitted.
 
 Key Considerations:
 
-Word Count: The essay must be at least 200 words to be considered above Band 3. The essay must meet a minimum word count of 250 words. If the essay is shorter than this minimum, the scores should be adjusted downward proportionally to the word count deficit.
+Word Count: The essay must be at least 150 words to be considered above Band 3 in each criterion. If the essay is shorter than 250 words, the scores should be adjusted downward proportionally to the word count deficit.
 Relevance: Assess whether the essay directly addresses the given topic. Irrelevant responses should be scored extremely low.
 Format Requirements: Present your evaluation in the specified JSON format, carefully ensuring all parts of the structure are included, particularly the closing brace.
 JSON Response Format:
@@ -313,14 +313,17 @@ their responsibility, is extremely valuable for next generations become better p
 contribution, no one should make billions of dollars that easily, because that imbalance does have a significant negative impact on societies. On the other hand, some people think that entertainers’ contribution to the modern life is worth the money they earn. It can be understood that for many people,
 watching a movie or going to a concert is irreplaceable with other activities; therefore, they think that their positive impact is crucial for a significant proportion of people. In addition to that, celebrities do compromise their privacy and freedom with being known by many others. In exchange of that, they do deserve a comfortable life with significantly better paychecks. In conclusion, despite their minimal contribution with their work to the people and sacrifice from their private life; I believe that their impact is far from being positive and they are not paid fairly or balanced with others.`
 
-async function generateResponse(topic, essay) {
+async function generateResponse(topic, essay, numberOfWords) {
     const chatCompletion = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         temperature: 1,
         max_tokens: 1000,
         messages: [
             { role: 'system', content: evaluationPrompt },
-            { role: 'user', content: `Topic: ${topic} Essay: ${essay}` },
+            {
+                role: 'user',
+                content: `Topic: ${topic} Essay: ${essay}, Number of Words: ${numberOfWords}`,
+            },
         ],
     })
     return chatCompletion.choices[0].message
