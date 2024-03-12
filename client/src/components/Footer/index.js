@@ -18,6 +18,8 @@ export default function Footer() {
             <a
               type="button"
               href="https://twitter.com/RanaAbdulrhmanD"
+              target="_blank"
+              rel="noreferrer"
               className="block m-1 h-9 w-9 hover:border-2 rounded-full border border-white text-white"
             >
               <svg
@@ -35,6 +37,8 @@ export default function Footer() {
             <a
               type="button"
               href="https://www.linkedin.com/in/ranaaldossari/"
+              target="_blank"
+              rel="noreferrer"
               className="block m-1 h-9 w-9 hover:border-2 rounded-full border border-white text-white"
             >
               <svg
@@ -52,6 +56,8 @@ export default function Footer() {
             <a
               type="button"
               href="https://github.com/RanaAbdulrhman"
+              target="_blank"
+              rel="noreferrer"
               className="block m-1 h-9 w-9 hover:border-2 rounded-full border border-white text-white"
             >
               <svg
