@@ -43,17 +43,17 @@ export default function MainPage() {
 
   const basicVariants = {
     start: { opacity: 0, y: -25 },
-    while: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+    while: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
   const leftVariants = {
-    start: { opacity: 0, x: -50 },
-    while: { opacity: 1, x: 0, transition: { duration: 0.65 } },
+    start: { opacity: 0, x: -20 },
+    while: { opacity: 1, x: 0, transition: { duration: 0.6 } },
   };
 
   const rightVariants = {
-    start: { opacity: 0, x: 50 },
-    while: { opacity: 1, x: 0, transition: { duration: 0.65 } },
+    start: { opacity: 0, x: 20 },
+    while: { opacity: 1, x: 0, transition: { duration: 0.6 } },
   };
 
   const FourthSection = () => (
