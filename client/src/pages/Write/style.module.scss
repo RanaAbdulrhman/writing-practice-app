@@ -17,6 +17,10 @@
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
+  &.inactive {
+    opacity: 70%;
+    pointer-events: none;
+  }
 }
 .backButton {
   border-radius: 6px;

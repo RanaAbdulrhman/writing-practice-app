@@ -25,7 +25,7 @@ export default function GrammerMistakesSection({ grammerMistakesList }) {
         </div>
       </div>
       {grammerMistakesList?.length ? (
-        <div className="flex flex-col gap-3 overflow-y-scroll h-[calc(100%-15px)] mb-5 pe-3">
+        <div className="flex flex-col gap-3 overflow-y-auto h-[calc(100%-15px)] mb-5 pe-3">
           {CorrectionCardsList}
         </div>
       ) : (

@@ -414,10 +414,10 @@ export default function Index() {
                 <LoadingButton
                   onBtnClick={() => {
                     handleEvaluateBtnClick();
-                    setIsEvaluate(true);
+                    // setIsEvaluate(true);
                   }}
                   isLoading={isEvaluationLoading}
-                  className={`${style.button}`}
+                  className={`${style.button} ${!essay ? style.inactive : ""}`}
                   title="Evaluate My Writing"
                 />
               )}

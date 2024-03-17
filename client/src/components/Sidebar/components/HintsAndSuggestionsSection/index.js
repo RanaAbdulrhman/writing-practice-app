@@ -21,7 +21,7 @@ export default function HintsAndSuggestionsSection({ suggestionsList }) {
             {suggestionsList && suggestionsList?.length} Hints
           </div>
         </div>
-        <div className="flex flex-col gap-3 overflow-y-scroll h-full mb-5 pe-3">
+        <div className="flex flex-col gap-3 overflow-y-auto h-full mb-5 pe-3">
           {suggestionsList?.length ? (
             suggestionsCardsList
           ) : (

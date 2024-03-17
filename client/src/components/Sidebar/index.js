@@ -94,7 +94,7 @@ export default function Sidebar({
       <div className="w-9/12 ps-5 h-[calc(100%-30px)]">
         {tabs[activeTab].loaded ? tabs[activeTab].content : <LoadingSkeleton />}
       </div>
-      <ul className="space-y-2 absolute top-0 overflow-y-scoll -right-4 mt-12">
+      <ul className="space-y-2 absolute top-0 -right-4 mt-12">
         {tabComponents}
       </ul>
     </div>
