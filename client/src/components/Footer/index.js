@@ -14,13 +14,12 @@ export default function Footer() {
       <div className="font-thin">RanaAbdulrhmanD@gmail.com</div>
       <div className="container px-6 pt-6 mx-auto">
         <div className="mb-4 flex justify-center w-full">
-          <div>
+          <div className="flex justify-center items-center m-1 h-9 w-9 hover:border-2 rounded-full border border-white text-white">
             <a
               type="button"
               href="https://twitter.com/RanaAbdulrhmanD"
               target="_blank"
               rel="noreferrer"
-              className="block m-1 h-9 w-9 hover:border-2 rounded-full border border-white text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -33,13 +32,12 @@ export default function Footer() {
             </a>
           </div>
 
-          <div>
+          <div className="flex justify-center items-center m-1 h-9 w-9 hover:border-2 rounded-full border border-white text-white">
             <a
               type="button"
               href="https://www.linkedin.com/in/ranaaldossari/"
               target="_blank"
               rel="noreferrer"
-              className="block m-1 h-9 w-9 hover:border-2 rounded-full border border-white text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -52,13 +50,12 @@ export default function Footer() {
             </a>
           </div>
 
-          <div>
+          <div className="flex justify-center items-center m-1 h-9 w-9 hover:border-2 rounded-full border border-white text-white">
             <a
               type="button"
               href="https://github.com/RanaAbdulrhman"
               target="_blank"
               rel="noreferrer"
-              className="block m-1 h-9 w-9 hover:border-2 rounded-full border border-white text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -25,6 +25,10 @@ export default function MainPage() {
   function startWriting() {
     navigate("/write");
   }
+
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
   useEffect(() => {
     updateDimensions();
 

@@ -354,7 +354,7 @@ export default function Index() {
           <div className="flex w-full justify-between mb-2">
             {isEvaluate && screenWidth > breakpoint ? (
               <button
-                className={`flex h-100 gap-2 justify-between items-center px-4 ${style.backButton}`}
+                className={`flex h-full gap-2 justify-between items-center px-4 ${style.backButton}`}
                 onClick={() => {
                   setScores(null);
                   setSuggestionsList(null);
@@ -365,7 +365,7 @@ export default function Index() {
                 }}
               >
                 <BackButton />
-                Back
+                Back to Edit
               </button>
             ) : (
               <div></div>
@@ -432,7 +432,7 @@ export default function Index() {
             } `}
           >
             {screenWidth <= breakpoint && (
-              <div className="flex justify-start m-5">
+              <div className="flex justify-start m-5 mb-8">
                 <button
                   className={`flex py-2 gap-2 justify-between items-center px-4 ${style.backButton} ${style.mobile}`}
                   onClick={() => {
@@ -445,7 +445,7 @@ export default function Index() {
                   }}
                 >
                   <BackButton />
-                  Back
+                  Back to Edit
                 </button>
               </div>
             )}

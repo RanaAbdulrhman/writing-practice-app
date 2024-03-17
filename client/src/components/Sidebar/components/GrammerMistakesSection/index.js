@@ -17,7 +17,7 @@ export default function GrammerMistakesSection({ grammerMistakesList }) {
     });
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 h-full">
       <div className="flex items-center justify-end gap-1">
         <div className={style.orangeDot}></div>
         <div className={style.alerts}>
@@ -25,7 +25,9 @@ export default function GrammerMistakesSection({ grammerMistakesList }) {
         </div>
       </div>
       {grammerMistakesList?.length ? (
-        CorrectionCardsList
+        <div className="flex flex-col gap-3 overflow-y-scroll h-[calc(100%-15px)] mb-5 pe-3">
+          {CorrectionCardsList}
+        </div>
       ) : (
         <EmptyState
           title="Perfect Grammer!"

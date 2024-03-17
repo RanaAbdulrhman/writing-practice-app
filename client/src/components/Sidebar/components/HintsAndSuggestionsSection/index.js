@@ -3,7 +3,6 @@ import HintCard from "./Cards";
 import style from "./style.module.scss";
 import EmptyState from "components/EmptyState";
 import { ReactComponent as EmptyImprovements } from "assets/icons/emptyImprovements.svg";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function HintsAndSuggestionsSection({ suggestionsList }) {
@@ -15,22 +14,24 @@ export default function HintsAndSuggestionsSection({ suggestionsList }) {
 
   return (
     <>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 h-full">
         <div className="flex items-center justify-end gap-1">
           <div className={style.orangeDot}></div>
           <div className={style.alerts}>
             {suggestionsList && suggestionsList?.length} Hints
           </div>
         </div>
-        {suggestionsList?.length ? (
-          suggestionsCardsList
-        ) : (
-          <EmptyState
-            icon={<EmptyImprovements />}
-            title="No suggested improvements!"
-            desc="Great job! Your essay is already at its best."
-          />
-        )}
+        <div className="flex flex-col gap-3 overflow-y-scroll h-full mb-5 pe-3">
+          {suggestionsList?.length ? (
+            suggestionsCardsList
+          ) : (
+            <EmptyState
+              icon={<EmptyImprovements />}
+              title="No suggested improvements!"
+              desc="Great job! Your essay is already at its best."
+            />
+          )}
+        </div>
       </div>
     </>
   );

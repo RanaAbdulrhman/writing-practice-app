@@ -21,10 +21,10 @@
     min-height: 80px;
     border-radius: 17px;
     padding-right: 18px;
-    padding-left: 10px;
+    padding-left: 18px;
     z-index: 10;
     color: white;
-    text-align: center;
+    text-align: center !important;
     font-size: 12px;
     font-style: normal;
     font-weight: 600;
@@ -37,6 +37,7 @@
     }
     &.mobile {
       border-radius: 0 0 17px 17px;
+      font-size: 10px;
     }
 
     &.desktopActive {

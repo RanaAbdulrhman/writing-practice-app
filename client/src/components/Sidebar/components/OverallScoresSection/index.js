@@ -38,7 +38,7 @@ export default function OverallScoresSection({ scores }) {
 
   return (
     scores && (
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 overflow-y-scroll pe-3 h-[calc(100%-15px)] mb-5">
         <OverallScoreCard score={calculateAverageScores(scores)} />
         {scores && (
           <>

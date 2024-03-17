@@ -5,7 +5,7 @@ import WritePage from "pages/Write";
 
 function App() {
   return (
-    <div className="App min-h-screen">
+    <div className="App h-full">
       <Navbar />
       <div>
         <WritePage />

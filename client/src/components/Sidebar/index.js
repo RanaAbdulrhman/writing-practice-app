@@ -68,11 +68,11 @@ export default function Sidebar({
       className={`${style.sideItem} ${
         activeTab === index &&
         (screenWidth < breakpoint ? style.mobileActive : style.desktopActive)
-      } ${screenWidth < breakpoint ? style.mobile : style.desktop}`}
+      } ${screenWidth < breakpoint ? style.mobile : style.desktop} mx-1`}
       onClick={() => setActiveTab(index)}
     >
       {tab.icon}
-      <span className="w-9/12">{tab.title}</span>
+      <span className="w-11/12">{tab.title}</span>
     </li>
   ));
 
@@ -88,10 +88,10 @@ export default function Sidebar({
     </div>
   ) : (
     <div
-      className={`fixed overflow-x-hidden z-0 top-0 right-0 h-screen pt-12 w-4/12 bg-white ${style.sidebarContainer} `}
+      className={`fixed overflow-x-hidden z-0 top-0 right-0 h-full pt-12 w-4/12 bg-white ${style.sidebarContainer} `}
     >
       <div className="px-5 text-lg font-bold mb-2">Your Feedback</div>
-      <div className="w-9/12 ps-5 max-h-full overflow-y-scroll pb-14">
+      <div className="w-9/12 ps-5 h-[calc(100%-30px)]">
         {tabs[activeTab].loaded ? tabs[activeTab].content : <LoadingSkeleton />}
       </div>
       <ul className="space-y-2 absolute top-0 overflow-y-scoll -right-4 mt-12">
